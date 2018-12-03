@@ -55,4 +55,24 @@ RSpec.describe Physical::Box do
       )
     end
   end
+
+  describe "#volume" do
+    subject { described_class.new(args).volume }
+
+    context "if all three dimensions are given" do
+      let(:args) { {dimensions: [1.1, 2.1, 3.2], dimension_unit: :cm} }
+
+      it "returns the correct volume" do
+        expect(subject).to eq(Measured::Volume(7.392, :ml))
+      end
+    end
+
+    context "if a dimension is missing" do
+      let(:args) { {dimensions: [1.1, 2.1], dimension_unit: :cm} }
+
+      it "is infinitely large" do
+        expect(subject).to eq(Measured::Volume(BigDecimal::INFINITY, :ml))
+      end
+    end
+  end
 end
