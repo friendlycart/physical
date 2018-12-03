@@ -51,4 +51,22 @@ RSpec.describe Physical::Package do
 
     it { is_expected.to be_empty }
   end
+
+  describe "#weight" do
+    let(:args) do
+      {
+        container: Physical::Box.new(weight: 0.8, weight_unit: :lb),
+        items: [
+          Physical::Item.new(weight: 0.2, weight_unit: :lb),
+          Physical::Item.new(weight: 1, weight_unit: :lb)
+        ]
+      }
+    end
+
+    subject { package.weight }
+
+    it "adds the weight of the container with that of the items" do
+      expect(subject).to eq(Measured::Weight(2, :lb))
+    end
+  end
 end

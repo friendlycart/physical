@@ -16,5 +16,9 @@ module Physical
     def >>(item)
       @items.delete(item)
     end
+
+    def weight
+      container.weight + items.map(&:weight).sum
+    end
   end
 end
