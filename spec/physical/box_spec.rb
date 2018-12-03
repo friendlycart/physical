@@ -75,4 +75,23 @@ RSpec.describe Physical::Box do
       end
     end
   end
+
+  describe "#weight" do
+    subject { described_class.new(args).weight }
+
+    context "with no weight given" do
+      let(:args) { {} }
+      it { is_expected.to eq(Measured::Weight(0, :g)) }
+    end
+
+    context "with a weight unit given" do
+      let(:args) { {weight: 1, weight_unit: :lb} }
+      it { is_expected.to eq(Measured::Weight(453.59237, :g)) }
+    end
+
+    context "with a weight given" do
+      let(:args) { {weight: 200} }
+      it { is_expected.to eq(Measured::Weight(200, :g)) }
+    end
+  end
 end
