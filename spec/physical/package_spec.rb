@@ -69,4 +69,17 @@ RSpec.describe Physical::Package do
       expect(subject).to eq(Measured::Weight(2, :lb))
     end
   end
+
+  describe "#remaining_volume" do
+    let(:args) do
+      {
+        container: Physical::Box.new(dimensions: [1, 2, 3]),
+        items: Physical::Item.new(dimensions: [1, 1, 1])
+      }
+    end
+
+    subject { package.remaining_volume }
+
+    it { is_expected.to eq(Measured::Volume(5, :ml)) }
+  end
 end
