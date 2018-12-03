@@ -12,10 +12,7 @@ module Physical
     end
 
     def volume
-      Measured::Volume(
-        dimensions.map { |dim| dim }.map(&:value).reduce(&:*),
-        :ml
-      )
+      Measured::Volume(dimensions.map(&:value).reduce(&:*), :ml)
     end
   end
 end
