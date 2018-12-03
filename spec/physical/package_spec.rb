@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Package do
-  subject { described_class.new(args) }
+  subject(:package) { described_class.new(args) }
 
   context 'with no args given' do
     let(:args) { {} }
@@ -16,5 +16,39 @@ RSpec.describe Physical::Package do
         [Measured::Length.new(BigDecimal::INFINITY, :cm)] * 3
       )
     end
+  end
+
+  describe "#items" do
+    let(:args) { {} }
+
+    subject { package.items }
+
+    it { is_expected.to be_empty }
+  end
+
+  describe "#<<" do
+    let(:args) { {} }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2]) }
+
+    subject { package.items }
+
+    before do
+      package << item
+    end
+
+    it { is_expected.to contain_exactly(item) }
+  end
+
+  describe "#>>" do
+    let(:args) { {items: [item]} }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2]) }
+
+    subject { package.items }
+
+    before do
+      package >> item
+    end
+
+    it { is_expected.to be_empty }
   end
 end

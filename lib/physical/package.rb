@@ -6,8 +6,15 @@ module Physical
 
     def initialize(container: Physical::Box.new, items: [])
       @container = container
-      @items = Set.new
-      items.each { |items| @items << item }
+      @items = Set[*items]
+    end
+
+    def <<(item)
+      @items.add(item)
+    end
+
+    def >>(item)
+      @items.delete(item)
     end
   end
 end
