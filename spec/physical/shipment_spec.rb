@@ -33,4 +33,15 @@ RSpec.describe Physical::Shipment do
 
     it { is_expected.to eq({}) }
   end
+
+  describe 'factory' do
+    subject { FactoryBot.build(:physical_shipment) }
+
+    it "works" do
+      expect(subject.origin).to be_a(Physical::Location)
+      expect(subject.destination).to be_a(Physical::Location)
+      expect(subject.packages.length).to eq(2)
+      expect(subject.shipping_method).to eq("USPS Priority")
+    end
+  end
 end

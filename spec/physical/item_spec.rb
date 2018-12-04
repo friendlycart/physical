@@ -102,4 +102,13 @@ RSpec.describe Physical::Item do
 
     it { is_expected.to eq(flammable: true) }
   end
+
+  describe 'factory' do
+    subject { FactoryBot.build(:physical_item) }
+
+    it 'has coherent attributes' do
+      expect(subject.dimensions.map(&:value)).to eq([1, 2, 3])
+      expect(subject.weight.value).to eq(50)
+    end
+  end
 end

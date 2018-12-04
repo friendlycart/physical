@@ -69,4 +69,22 @@ RSpec.describe Physical::Location do
       end
     end
   end
+
+  describe 'factory' do
+    let(:country) { Carmen::Country.coded('us') }
+    let(:subregion) { country.subregions.coded('il') }
+
+    subject { FactoryBot.build(:physical_location) }
+
+    it "has coherent attributes" do
+      expect(subject.country).to eq(country)
+      expect(subject.region).to eq(subregion)
+      expect(subject.name).to eq("Jane Doe")
+      expect(subject.address1).to eq("11 Lovely Street")
+      expect(subject.address2).to eq("South")
+      expect(subject.address3).to be_nil
+      expect(subject.city).to eq("Herndon")
+      expect(subject.company_name).to eq("Company")
+    end
+  end
 end

@@ -94,4 +94,13 @@ RSpec.describe Physical::Box do
       it { is_expected.to eq(Measured::Weight(200, :g)) }
     end
   end
+
+  describe 'factory' do
+    subject { FactoryBot.build(:physical_box) }
+
+    it 'has coherent attributes' do
+      expect(subject.dimensions.map(&:value)).to eq([40, 50, 60])
+      expect(subject.weight.value).to eq(100)
+    end
+  end
 end

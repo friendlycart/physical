@@ -108,4 +108,12 @@ RSpec.describe Physical::Package do
       it { is_expected.to be_present }
     end
   end
+
+  describe 'factory' do
+    subject { FactoryBot.build(:physical_package) }
+
+    it 'has plausible attributes' do
+      expect(subject.weight).to eq(Measured::Weight(1399.88, :g))
+    end
+  end
 end
