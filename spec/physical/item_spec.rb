@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Item do
-  subject { described_class.new(args) }
+  subject(:item) { described_class.new(args) }
   let(:args) { {dimensions: [1, 2, 3], dimension_unit: :cm} }
 
   it "has dimensions as Measured::Length objects" do
@@ -93,5 +93,13 @@ RSpec.describe Physical::Item do
       let(:args) { {weight: 200} }
       it { is_expected.to eq(Measured::Weight(200, :g)) }
     end
+  end
+
+  describe '#properties' do
+    let(:args) { {properties: {flammable: true}} }
+
+    subject { item.properties }
+
+    it { is_expected.to eq(flammable: true) }
   end
 end
