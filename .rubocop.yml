@@ -1,8 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.3
   Exclude:
-    - db/schema.rb
-    - db/migrate/*
     - Gemfile
     - Rakefile
     - bin/*
