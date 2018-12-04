@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "A facade to deal with physical packages"
   spec.description   = "A package with boxes and items"
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "http://example.com"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
     f.match(%r{^(spec)/})
   end
   spec.require_paths = ["lib"]
-
+  spec.required_ruby_version = '>= 2.4'
   spec.add_runtime_dependency "measured"
 
   spec.add_development_dependency "bundler", "~> 1.16"
