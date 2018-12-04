@@ -37,6 +37,16 @@ RSpec.describe Physical::Package do
     end
 
     it { is_expected.to contain_exactly(item) }
+
+    context 'with an item already present' do
+      let(:args) { {items: [item]} }
+
+      before do
+        package << item
+      end
+
+      it { is_expected.to contain_exactly(item) }
+    end
   end
 
   describe "#>>" do
@@ -81,5 +91,21 @@ RSpec.describe Physical::Package do
     subject { package.remaining_volume }
 
     it { is_expected.to eq(Measured::Volume(5, :ml)) }
+  end
+
+  describe "#id" do
+    subject { package.id }
+
+    context "id is given" do
+      let(:args) { {id: "12345"} }
+
+      it { is_expected.to eq("12345") }
+    end
+
+    context "no ID is given" do
+      let(:args) { {} }
+
+      it { is_expected.to be_present }
+    end
   end
 end
