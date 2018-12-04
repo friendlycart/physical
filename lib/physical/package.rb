@@ -29,6 +29,7 @@ module Physical
 
     def void_fill_weight
       return Measured::Weight(0, :g) if container.volume.value.infinite?
+
       Measured::Weight(void_fill_density.value * remaining_volume.value, void_fill_density.unit)
     end
   end
