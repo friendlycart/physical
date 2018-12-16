@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "A facade to deal with physical packages"
   spec.description   = "A package with boxes and items"
-  spec.homepage      = "http://example.com"
+  spec.homepage      = "https://github.com/mamhoff/physical"
   spec.license       = "MIT"
 
   spec.files = `git ls-files -z`.split("\x0").reject do |f|
