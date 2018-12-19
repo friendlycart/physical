@@ -7,7 +7,7 @@ FactoryBot.define do
     origin { FactoryBot.build(:physical_location) }
     destination { FactoryBot.build(:physical_location) }
     packages { build_list(:physical_package, 2) }
-    shipping_method { "USPS Priority" }
+    service_code { "usps_priority_mail" }
     initialize_with { new(attributes) }
   end
 end

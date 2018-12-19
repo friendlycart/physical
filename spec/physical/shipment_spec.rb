@@ -10,8 +10,8 @@ RSpec.describe Physical::Shipment do
     it { is_expected.to eq([]) }
   end
 
-  describe '#shipping_method' do
-    subject { shipment.shipping_method }
+  describe '#service_code' do
+    subject { shipment.service_code }
 
     it { is_expected.to be_nil }
   end
@@ -41,7 +41,7 @@ RSpec.describe Physical::Shipment do
       expect(subject.origin).to be_a(Physical::Location)
       expect(subject.destination).to be_a(Physical::Location)
       expect(subject.packages.length).to eq(2)
-      expect(subject.shipping_method).to eq("USPS Priority")
+      expect(subject.service_code).to eq("usps_priority_mail")
     end
   end
 end

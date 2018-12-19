@@ -5,15 +5,15 @@ module Physical
     attr_reader :id,
                 :origin,
                 :destination,
-                :shipping_method,
+                :service_code,
                 :packages,
                 :options
 
-    def initialize(id: nil, origin: nil, destination: nil, shipping_method: nil, packages: [], options: {})
+    def initialize(id: nil, origin: nil, destination: nil, service_code: nil, packages: [], options: {})
       @id = id || SecureRandom.uuid
       @origin = origin
       @destination = destination
-      @shipping_method = shipping_method
+      @service_code = service_code
       @packages = packages
       @options = options
     end
