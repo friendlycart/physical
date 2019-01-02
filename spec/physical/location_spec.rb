@@ -68,6 +68,18 @@ RSpec.describe Physical::Location do
         it { is_expected.to eq(subregion) }
       end
     end
+
+    context 'with a country code given' do
+      let(:args) { {country: "US"} }
+
+      it { is_expected.to be_nil }
+
+      context 'with a region code given' do
+        let(:args) { {country: "US", region: :il} }
+
+        it { is_expected.to eq(subregion) }
+      end
+    end
   end
 
   describe 'factory' do

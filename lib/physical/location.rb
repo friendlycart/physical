@@ -44,8 +44,8 @@ module Physical
 
       if region.is_a?(Carmen::Region)
         @region = region
-      elsif country.is_a?(Carmen::Country)
-        @region = country.subregions.coded(region.to_s.upcase)
+      elsif @country.is_a?(Carmen::Country)
+        @region = @country.subregions.coded(region.to_s.upcase)
       end
 
       @name = name
