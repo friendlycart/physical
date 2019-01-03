@@ -20,11 +20,11 @@ module Physical
     end
 
     def weight
-      container.weight + items.map(&:weight).reduce(&:+) + void_fill_weight
+      container.weight + items.map(&:weight).reduce(Measured::Weight(0, :g), &:+) + void_fill_weight
     end
 
     def remaining_volume
-      container.volume - items.map(&:volume).reduce(&:+)
+      container.volume - items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
     end
 
     def void_fill_weight

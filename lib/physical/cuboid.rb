@@ -14,7 +14,7 @@ module Physical
     end
 
     def volume
-      Measured::Volume(dimensions.map(&:value).reduce(&:*), :ml)
+      Measured::Volume(dimensions.map(&:value).reduce(1, &:*), :ml)
     end
 
     def ==(other)
