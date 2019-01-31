@@ -21,10 +21,10 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.required_ruby_version = '>= 2.4'
   spec.add_runtime_dependency "carmen", "~> 1.0"
-  spec.add_runtime_dependency "factory_bot", "~> 4.8 "
   spec.add_runtime_dependency "measured", "~> 2.4.0"
 
-  spec.add_development_dependency "bundler", "~> 1.16"
+  spec.add_development_dependency "bundler", [">= 1.16", "< 3"]
+  spec.add_development_dependency "factory_bot", "~> 4.8"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.0"
 end
