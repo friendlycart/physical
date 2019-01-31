@@ -2,6 +2,7 @@
 
 module Physical
   class Package
+    extend Forwardable
     attr_reader :container, :items, :void_fill_density, :id
 
     def initialize(id: nil, container: Physical::Box.new, items: [], void_fill_density: 0, void_fill_density_unit: :g)
@@ -10,6 +11,8 @@ module Physical
       @container = container
       @items = Set[*items]
     end
+
+    def_delegator :@container, :dimensions
 
     def <<(item)
       @items.add(item)

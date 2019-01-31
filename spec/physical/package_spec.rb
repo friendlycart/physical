@@ -12,7 +12,7 @@ RSpec.describe Physical::Package do
 
     it "is an infitely large box" do
       expect(subject.container).to be_a(Physical::Box)
-      expect(subject.container.dimensions).to eq(
+      expect(subject.dimensions).to eq(
         [Measured::Length.new(BigDecimal::INFINITY, :cm)] * 3
       )
     end
