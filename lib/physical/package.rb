@@ -7,7 +7,7 @@ module Physical
 
     def initialize(id: nil, container: Physical::Box.new, items: [], void_fill_density: 0, void_fill_density_unit: :g)
       @id = id || SecureRandom.uuid
-      @void_fill_density = Measured::Weight(void_fill_density, void_fill_density_unit)
+      @void_fill_density = measured_void_fill_density(void_fill_density, void_fill_density_unit)
       @container = container
       @items = Set[*items]
     end
@@ -34,6 +34,15 @@ module Physical
       return Measured::Weight(0, :g) if container.volume.value.infinite?
 
       Measured::Weight(void_fill_density.value * remaining_volume.value, void_fill_density.unit)
+    end
+
+    def measured_void_fill_density(void_fill_density, void_fill_density_unit)
+      case void_fill_density
+      when Measured::Weight
+        void_fill_density
+      else
+        Measured::Weight(void_fill_density, void_fill_density_unit)
+      end
     end
   end
 end
