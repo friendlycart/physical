@@ -3,6 +3,7 @@
 require "bundler/setup"
 require "physical"
 require "physical/spec_support/factories"
+require "physical/spec_support/shared_examples"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
