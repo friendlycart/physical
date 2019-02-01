@@ -129,4 +129,37 @@ RSpec.describe Physical::Package do
       expect(subject.weight).to eq(Measured::Weight(1399.88, :g))
     end
   end
+
+  describe '#void_fill_weight' do
+    subject { package.void_fill_weight }
+
+    shared_examples 'returning a measured weight' do
+      it 'returns a measured weight' do
+        is_expected.to be_a(Measured::Weight)
+        expect(subject.convert_to(:g).value.to_f).to eq(0.007)
+      end
+    end
+
+    context 'when void fill density is given' do
+      let(:container) { Physical::Box.new(dimensions: [1, 1, 1]) }
+
+      context 'as number' do
+        let(:args) { {container: container, void_fill_density: 0.007} }
+
+        it_behaves_like 'returning a measured weight'
+
+        context 'and void fill density unit given' do
+          let(:args) { {container: container, void_fill_density: 0.000007, void_fill_density_unit: :kg} }
+
+          it_behaves_like 'returning a measured weight'
+        end
+      end
+
+      context 'as measured weight' do
+        let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
+
+        it_behaves_like 'returning a measured weight'
+      end
+    end
+  end
 end
