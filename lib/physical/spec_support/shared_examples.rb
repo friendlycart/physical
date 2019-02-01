@@ -14,4 +14,10 @@ RSpec.shared_examples 'a cuboid' do
       ]
     )
   end
+
+  it "has getter methods for each dimension as Measured::Length object" do
+    expect(subject.width).to eq(Measured::Length.new(1, :cm))
+    expect(subject.height).to eq(Measured::Length.new(2, :cm))
+    expect(subject.depth).to eq(Measured::Length.new(3, :cm))
+  end
 end
