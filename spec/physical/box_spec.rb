@@ -2,17 +2,8 @@
 
 RSpec.describe Physical::Box do
   subject { described_class.new(args) }
-  let(:args) { {dimensions: [1, 2, 3], dimension_unit: :cm} }
 
-  it "has dimensions as Measured::Length objects" do
-    expect(subject.dimensions).to eq(
-      [
-        Measured::Length.new(1, :cm),
-        Measured::Length.new(2, :cm),
-        Measured::Length.new(3, :cm)
-      ]
-    )
-  end
+  it_behaves_like 'a cuboid'
 
   context "when given a one-element dimensions array" do
     let(:args) { {dimensions: [2], dimension_unit: :cm} }
