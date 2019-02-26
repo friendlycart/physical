@@ -90,8 +90,8 @@ RSpec.describe Physical::Box do
     subject { FactoryBot.build(:physical_box) }
 
     it 'has coherent attributes' do
-      expect(subject.dimensions.map(&:value)).to eq([40, 50, 60])
-      expect(subject.weight.value).to eq(100)
+      expect(subject.dimensions.map { |d| d.convert_to(:cm).value }).to eq([40, 50, 60])
+      expect(subject.weight.convert_to(:g).value).to eq(100)
     end
   end
 end
