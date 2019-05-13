@@ -12,7 +12,7 @@ module Physical
       @items = Set[*items]
     end
 
-    def_delegator :@container, :dimensions
+    delegate [:dimensions, :width, :length, :height, :depth, :x, :y, :z] => :container
 
     def <<(item)
       @items.add(item)

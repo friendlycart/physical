@@ -93,6 +93,16 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe 'dimension methods' do
+    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3]) } }
+
+    it 'forwards them to the container' do
+      expect(package.length).to eq(Measured::Length(3, :cm))
+      expect(package.width).to eq(Measured::Length(2, :cm))
+      expect(package.depth).to eq(Measured::Length(1, :cm))
+    end
+  end
+
   describe "#remaining_volume" do
     let(:args) do
       {
