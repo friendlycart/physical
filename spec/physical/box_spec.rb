@@ -127,4 +127,28 @@ RSpec.describe Physical::Box do
       end
     end
   end
+
+  describe 'inner length, width, height, volume' do
+    subject { described_class.new(args) }
+
+    let(:args) do
+      {
+        dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) },
+        inner_dimensions: [2, 1, 3].map { |d| Measured::Length(d, :cm) }
+      }
+    end
+
+    it 'does the correct calculations' do
+      aggregate_failures do
+        expect(subject.inner_length).to eq(Measured::Length(3, :cm))
+        expect(subject.inner_width).to eq(Measured::Length(2, :cm))
+        expect(subject.inner_height).to eq(Measured::Length(1, :cm))
+        expect(subject.inner_x).to eq(Measured::Length(3, :cm))
+        expect(subject.inner_y).to eq(Measured::Length(2, :cm))
+        expect(subject.inner_z).to eq(Measured::Length(1, :cm))
+        expect(subject.inner_depth).to eq(Measured::Length(1, :cm))
+        expect(subject.inner_volume).to eq(Measured::Volume(6, :ml))
+      end
+    end
+  end
 end
