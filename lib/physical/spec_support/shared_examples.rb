@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.shared_examples 'a cuboid' do
-  let(:args) { {dimensions: [1.1, 2.2, 3.3].shuffle, dimension_unit: :cm} }
+  let(:args) do
+    {
+      dimensions: [
+        Measured::Length.new(1.1, :cm),
+        Measured::Length.new(2.2, :cm),
+        Measured::Length.new(3.3, :cm)
+      ].shuffle
+    }
+  end
 
   it { is_expected.to be_a(Physical::Cuboid) }
 

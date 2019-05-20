@@ -65,10 +65,10 @@ RSpec.describe Physical::Package do
   describe "#weight" do
     let(:args) do
       {
-        container: Physical::Box.new(weight: 0.8, weight_unit: :lb),
+        container: Physical::Box.new(weight: Measured::Weight(0.8, :lb)),
         items: [
-          Physical::Item.new(weight: 0.2, weight_unit: :lb),
-          Physical::Item.new(weight: 1, weight_unit: :lb)
+          Physical::Item.new(weight: Measured::Weight(0.2, :lb)),
+          Physical::Item.new(weight: Measured::Weight(1, :lb))
         ]
       }
     end
@@ -82,7 +82,7 @@ RSpec.describe Physical::Package do
     context 'if no items given' do
       let(:args) do
         {
-          container: Physical::Box.new(weight: 0.8, weight_unit: :lb),
+          container: Physical::Box.new(weight: Measured::Weight(0.8, :lb)),
           items: []
         }
       end
@@ -94,7 +94,7 @@ RSpec.describe Physical::Package do
   end
 
   describe 'dimension methods' do
-    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3]) } }
+    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3].map { |d| Measured::Length(d, :cm)}) } }
 
     it 'forwards them to the container' do
       expect(package.length).to eq(Measured::Length(3, :cm))
@@ -106,8 +106,8 @@ RSpec.describe Physical::Package do
   describe "#remaining_volume" do
     let(:args) do
       {
-        container: Physical::Box.new(dimensions: [1, 2, 3]),
-        items: Physical::Item.new(dimensions: [1, 1, 1])
+        container: Physical::Box.new(dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) }),
+        items: Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) })
       }
     end
 
@@ -143,32 +143,16 @@ RSpec.describe Physical::Package do
   describe '#void_fill_weight' do
     subject { package.void_fill_weight }
 
-    shared_examples 'returning a measured weight' do
-      it 'returns a measured weight' do
-        is_expected.to be_a(Measured::Weight)
-        expect(subject.convert_to(:g).value.to_f).to eq(0.007)
-      end
-    end
-
     context 'when void fill density is given' do
-      let(:container) { Physical::Box.new(dimensions: [1, 1, 1]) }
-
-      context 'as number' do
-        let(:args) { {container: container, void_fill_density: 0.007} }
-
-        it_behaves_like 'returning a measured weight'
-
-        context 'and void fill density unit given' do
-          let(:args) { {container: container, void_fill_density: 0.000007, void_fill_density_unit: :kg} }
-
-          it_behaves_like 'returning a measured weight'
-        end
-      end
+      let(:container) { Physical::Box.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }) }
 
       context 'as measured weight' do
         let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
 
-        it_behaves_like 'returning a measured weight'
+        it 'returns a measured weight' do
+          is_expected.to be_a(Measured::Weight)
+          expect(subject.convert_to(:g).value.to_f).to eq(0.007)
+        end
       end
     end
   end

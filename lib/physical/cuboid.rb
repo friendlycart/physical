@@ -6,11 +6,12 @@ module Physical
   class Cuboid
     attr_reader :dimensions, :length, :width, :height, :weight, :id, :properties
 
-    def initialize(id: nil, dimensions: [], dimension_unit: :cm, weight: 0, weight_unit: :g, properties: {})
+    def initialize(id: nil, dimensions: [], weight: nil, properties: {})
       @id = id || SecureRandom.uuid
-      @weight = Measured::Weight(weight, weight_unit)
-      @dimensions = dimensions.map { |dimension| Measured::Length.new(dimension, dimension_unit) }.sort
-      @dimensions.fill(Measured::Length(self.class::DEFAULT_LENGTH, dimension_unit), @dimensions.length..2)
+      @weight = weight || Measured::Weight(0, :g)
+      @dimensions = dimensions
+      @dimensions.fill(Measured::Length(self.class::DEFAULT_LENGTH, :cm), @dimensions.length..2)
+      @dimensions = dimensions.sort
       @length, @width, @height = *@dimensions.reverse
       @properties = properties
     end
