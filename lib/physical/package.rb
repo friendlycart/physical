@@ -27,7 +27,7 @@ module Physical
     end
 
     def remaining_volume
-      container.volume - items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
+      container.inner_volume - items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
     end
 
     def void_fill_weight

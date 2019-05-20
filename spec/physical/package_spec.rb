@@ -136,7 +136,7 @@ RSpec.describe Physical::Package do
     subject { FactoryBot.build(:physical_package) }
 
     it 'has plausible attributes' do
-      expect(subject.weight).to eq(Measured::Weight(1399.88, :g))
+      expect(subject.weight).to eq(Measured::Weight(1327.37, :g))
     end
   end
 
@@ -144,15 +144,18 @@ RSpec.describe Physical::Package do
     subject { package.void_fill_weight }
 
     context 'when void fill density is given' do
-      let(:container) { Physical::Box.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }) }
+      let(:container) do
+        Physical::Box.new(
+          dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) },
+          inner_dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }
+        )
+      end
 
-      context 'as measured weight' do
-        let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
+      let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
 
-        it 'returns a measured weight' do
-          is_expected.to be_a(Measured::Weight)
-          expect(subject.convert_to(:g).value.to_f).to eq(0.007)
-        end
+      it 'calculates the void fill weight from inner dimensions' do
+        is_expected.to be_a(Measured::Weight)
+        expect(subject.convert_to(:g).value.to_f).to eq(0.007)
       end
     end
   end
