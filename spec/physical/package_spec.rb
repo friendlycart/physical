@@ -91,6 +91,52 @@ RSpec.describe Physical::Package do
         expect(subject).to eq(Measured::Weight(0.8, :lb))
       end
     end
+
+    context 'with no container given but weight given' do
+      let(:args) do
+        {
+          weight: Measured::Weight(0.8, :lb),
+        }
+      end
+
+      it 'keeps that weight and has infinite dimensions' do
+        expect(package.weight).to eq(Measured::Weight(0.8, :lb))
+        expect(package.length).to eq(Measured::Length(Float::INFINITY, :cm))
+        expect(package.width).to eq(Measured::Length(Float::INFINITY, :cm))
+        expect(package.height).to eq(Measured::Length(Float::INFINITY, :cm))
+      end
+    end
+
+    context 'with no container given but dimensions given' do
+      let(:args) do
+        {
+          dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) },
+        }
+      end
+
+      it 'keeps that weight and has infinite dimensions' do
+        expect(package.weight).to eq(Measured::Weight(0, :lb))
+        expect(package.length).to eq(Measured::Length(3, :cm))
+        expect(package.width).to eq(Measured::Length(2, :cm))
+        expect(package.height).to eq(Measured::Length(1, :cm))
+      end
+    end
+
+    context 'with no container given but dimensions and weight given' do
+      let(:args) do
+        {
+          weight: Measured::Weight(0.8, :lb),
+          dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) },
+        }
+      end
+
+      it 'keeps that weight and has infinite dimensions' do
+        expect(package.weight).to eq(Measured::Weight(0.8, :lb))
+        expect(package.length).to eq(Measured::Length(3, :cm))
+        expect(package.width).to eq(Measured::Length(2, :cm))
+        expect(package.height).to eq(Measured::Length(1, :cm))
+      end
+    end
   end
 
   describe 'dimension methods' do
