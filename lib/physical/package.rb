@@ -7,7 +7,7 @@ module Physical
 
     def initialize(id: nil, container: Physical::Box.new, items: [], void_fill_density: Measured::Weight(0, :g))
       @id = id || SecureRandom.uuid
-      @void_fill_density = void_fill_density
+      @void_fill_density = Types::Weight[void_fill_density]
       @container = container
       @items = Set[*items]
     end

@@ -12,7 +12,7 @@ module Physical
 
     def initialize(inner_dimensions: [], **args)
       super args
-      @inner_dimensions = fill_dimensions(inner_dimensions)
+      @inner_dimensions = fill_dimensions(Types::Dimensions[inner_dimensions])
       @inner_length, @inner_width, @inner_height = *@inner_dimensions.reverse
     end
 

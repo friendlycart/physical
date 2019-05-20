@@ -28,7 +28,7 @@ RSpec.describe Physical::Package do
 
   describe "#<<" do
     let(:args) { {} }
-    let(:item) { Physical::Item.new(dimensions: [2, 2, 2]) }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
 
     subject { package.items }
 
@@ -51,7 +51,7 @@ RSpec.describe Physical::Package do
 
   describe "#>>" do
     let(:args) { {items: [item]} }
-    let(:item) { Physical::Item.new(dimensions: [2, 2, 2]) }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
 
     subject { package.items }
 
