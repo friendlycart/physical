@@ -9,9 +9,8 @@ module Physical
     def initialize(id: nil, dimensions: [], weight: nil, properties: {})
       @id = id || SecureRandom.uuid
       @weight = weight || Measured::Weight(0, :g)
-      @dimensions = dimensions
-      @dimensions.fill(Measured::Length(self.class::DEFAULT_LENGTH, :cm), @dimensions.length..2)
-      @dimensions = dimensions.sort
+      @dimensions = []
+      @dimensions = fill_dimensions(dimensions)
       @length, @width, @height = *@dimensions.reverse
       @properties = properties
     end
@@ -27,6 +26,14 @@ module Physical
 
     def ==(other)
       id == other.id
+    end
+
+    private
+
+    def fill_dimensions(dimensions)
+      dimensions.fill(dimensions.length..2) do |index|
+        @dimensions[index] || Measured::Length(self.class::DEFAULT_LENGTH, :cm)
+      end.sort
     end
   end
 end

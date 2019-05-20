@@ -89,4 +89,42 @@ RSpec.describe Physical::Box do
       expect(subject.weight.convert_to(:g).value).to eq(100)
     end
   end
+
+  describe '#inner_dimensions' do
+    subject { described_class.new(args).inner_dimensions }
+
+    context 'if all values are given' do
+      let(:args) do
+        {
+          dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) },
+          inner_dimensions: [3, 1, 2].map { |d| Measured::Length(d, :cm) }
+        }
+      end
+
+      it do
+        is_expected.to eq([
+          Measured::Length.new(1, :cm),
+          Measured::Length.new(2, :cm),
+          Measured::Length.new(3, :cm)
+        ])
+      end
+    end
+
+    context 'if a value is missing but outer dimensions are given' do
+      let(:args) do
+        {
+          dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) },
+          inner_dimensions: [2, 1].map { |d| Measured::Length(d, :cm) }
+        }
+      end
+
+      it 'fills up with the outer dimensions' do
+        is_expected.to eq([
+          Measured::Length.new(1, :cm),
+          Measured::Length.new(2, :cm),
+          Measured::Length.new(3.2, :cm)
+        ])
+      end
+    end
+  end
 end
