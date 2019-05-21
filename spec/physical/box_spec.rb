@@ -103,9 +103,9 @@ RSpec.describe Physical::Box do
 
       it do
         is_expected.to eq([
+          Measured::Length.new(3, :cm),
           Measured::Length.new(1, :cm),
-          Measured::Length.new(2, :cm),
-          Measured::Length.new(3, :cm)
+          Measured::Length.new(2, :cm)
         ])
       end
     end
@@ -120,8 +120,8 @@ RSpec.describe Physical::Box do
 
       it 'fills up with the outer dimensions' do
         is_expected.to eq([
-          Measured::Length.new(1, :cm),
           Measured::Length.new(2, :cm),
+          Measured::Length.new(1, :cm),
           Measured::Length.new(3.2, :cm)
         ])
       end
@@ -140,13 +140,9 @@ RSpec.describe Physical::Box do
 
     it 'does the correct calculations' do
       aggregate_failures do
-        expect(subject.inner_length).to eq(Measured::Length(3, :cm))
-        expect(subject.inner_width).to eq(Measured::Length(2, :cm))
-        expect(subject.inner_height).to eq(Measured::Length(1, :cm))
-        expect(subject.inner_x).to eq(Measured::Length(3, :cm))
-        expect(subject.inner_y).to eq(Measured::Length(2, :cm))
-        expect(subject.inner_z).to eq(Measured::Length(1, :cm))
-        expect(subject.inner_depth).to eq(Measured::Length(1, :cm))
+        expect(subject.inner_length).to eq(Measured::Length(2, :cm))
+        expect(subject.inner_width).to eq(Measured::Length(1, :cm))
+        expect(subject.inner_height).to eq(Measured::Length(3, :cm))
         expect(subject.inner_volume).to eq(Measured::Volume(6, :ml))
       end
     end

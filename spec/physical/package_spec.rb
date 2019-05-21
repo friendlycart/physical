@@ -115,10 +115,10 @@ RSpec.describe Physical::Package do
       end
 
       it 'keeps that weight and has infinite dimensions' do
-        expect(package.weight).to eq(Measured::Weight(0, :lb))
-        expect(package.length).to eq(Measured::Length(3, :cm))
+        expect(package.length).to eq(Measured::Length(1, :cm))
         expect(package.width).to eq(Measured::Length(2, :cm))
-        expect(package.height).to eq(Measured::Length(1, :cm))
+        expect(package.height).to eq(Measured::Length(3, :cm))
+        expect(package.weight).to eq(Measured::Weight(0, :lb))
       end
     end
 
@@ -132,9 +132,9 @@ RSpec.describe Physical::Package do
 
       it 'keeps that weight and has infinite dimensions' do
         expect(package.weight).to eq(Measured::Weight(0.8, :lb))
-        expect(package.length).to eq(Measured::Length(3, :cm))
+        expect(package.length).to eq(Measured::Length(1, :cm))
         expect(package.width).to eq(Measured::Length(2, :cm))
-        expect(package.height).to eq(Measured::Length(1, :cm))
+        expect(package.height).to eq(Measured::Length(3, :cm))
       end
     end
 
@@ -158,9 +158,9 @@ RSpec.describe Physical::Package do
     let(:args) { { container: Physical::Box.new(dimensions: [1,2,3].map { |d| Measured::Length(d, :cm)}) } }
 
     it 'forwards them to the container' do
-      expect(package.length).to eq(Measured::Length(3, :cm))
+      expect(package.length).to eq(Measured::Length(1, :cm))
       expect(package.width).to eq(Measured::Length(2, :cm))
-      expect(package.depth).to eq(Measured::Length(1, :cm))
+      expect(package.height).to eq(Measured::Length(3, :cm))
     end
   end
 

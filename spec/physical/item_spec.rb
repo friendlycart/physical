@@ -11,9 +11,9 @@ RSpec.describe Physical::Item do
     specify "the other dimensions are filled up with 0" do
       expect(subject.dimensions).to eq(
         [
+          Measured::Length.new(2, :cm),
           Measured::Length.new(0, :cm),
-          Measured::Length.new(0, :cm),
-          Measured::Length.new(2, :cm)
+          Measured::Length.new(0, :cm)
         ]
       )
     end
@@ -25,9 +25,9 @@ RSpec.describe Physical::Item do
     it "the last dimension is filled up with 0" do
       expect(subject.dimensions).to eq(
         [
-          Measured::Length.new(0, :cm),
           Measured::Length.new(1, :cm),
-          Measured::Length.new(2, :cm)
+          Measured::Length.new(2, :cm),
+          Measured::Length.new(0, :cm)
         ]
       )
     end

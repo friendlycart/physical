@@ -13,13 +13,8 @@ module Physical
     def initialize(inner_dimensions: [], **args)
       super args
       @inner_dimensions = fill_dimensions(Types::Dimensions[inner_dimensions])
-      @inner_length, @inner_width, @inner_height = *@inner_dimensions.reverse
+      @inner_length, @inner_width, @inner_height = *@inner_dimensions
     end
-
-    alias :inner_x :inner_length
-    alias :inner_y :inner_width
-    alias :inner_z :inner_height
-    alias :inner_depth :inner_height
 
     def inner_volume
       Measured::Volume(
