@@ -52,9 +52,7 @@ You will be able to retrieve the package's weight and dimensions using the `#wei
 
 ### Convenience methods
 
-The length, width and height of a package are defined as the package's longest, middle, and shortest side, respectively. For the package from the previous example, `package.length` will be 5 inches, `package.width` will be 4 inches, and `package.height` will be 3 inches. Packages do not have a notion of "right side up" yet.
-
-The package's `length` is also accessible as `package.x`. The package's `width` is also accessible as `package.y`. The package's `height` is also accessible as `package.z` as well as `package.depth`.
+The length, width and height of a package are defined as the dimension array's first, second, and third argument, respectively. For the package from the previous example, `package.length` will be 3 inches, `package.width` will be 4 inches, and `package.height` will be 5 inches.
 
 ### Packages with Items
 

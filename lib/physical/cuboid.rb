@@ -11,14 +11,9 @@ module Physical
       @weight = Types::Weight[weight]
       @dimensions = []
       @dimensions = fill_dimensions(Types::Dimensions[dimensions])
-      @length, @width, @height = *@dimensions.reverse
+      @length, @width, @height = *@dimensions
       @properties = properties
     end
-
-    alias :x :length
-    alias :y :width
-    alias :z :height
-    alias :depth :height
 
     def volume
       Measured::Volume(dimensions.map { |d| d.convert_to(:cm).value }.reduce(1, &:*), :ml)
@@ -33,7 +28,7 @@ module Physical
     def fill_dimensions(dimensions)
       dimensions.fill(dimensions.length..2) do |index|
         @dimensions[index] || Measured::Length(self.class::DEFAULT_LENGTH, :cm)
-      end.sort
+      end
     end
   end
 end
