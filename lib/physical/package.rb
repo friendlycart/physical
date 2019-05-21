@@ -5,14 +5,14 @@ module Physical
     extend Forwardable
     attr_reader :container, :items, :void_fill_density, :id
 
-    def initialize(id: nil, container: Physical::Box.new, items: [], void_fill_density: 0, void_fill_density_unit: :g)
+    def initialize(id: nil, container: nil, items: [], void_fill_density: Measured::Weight(0, :g), dimensions: nil, weight: nil, properties: {})
       @id = id || SecureRandom.uuid
-      @void_fill_density = measured_void_fill_density(void_fill_density, void_fill_density_unit)
-      @container = container
+      @void_fill_density = Types::Weight[void_fill_density]
+      @container = container || Physical::Box.new(dimensions: dimensions || [], weight: weight || Measured::Weight(0, :g), properties: properties)
       @items = Set[*items]
     end
 
-    delegate [:dimensions, :width, :length, :height, :depth, :x, :y, :z] => :container
+    delegate [:dimensions, :width, :length, :height, :depth, :x, :y, :z, :properties] => :container
 
     def <<(item)
       @items.add(item)
@@ -27,22 +27,13 @@ module Physical
     end
 
     def remaining_volume
-      container.volume - items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
+      container.inner_volume - items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
     end
 
     def void_fill_weight
       return Measured::Weight(0, :g) if container.volume.value.infinite?
 
       Measured::Weight(void_fill_density.value * remaining_volume.value, void_fill_density.unit)
-    end
-
-    def measured_void_fill_density(void_fill_density, void_fill_density_unit)
-      case void_fill_density
-      when Measured::Weight
-        void_fill_density
-      else
-        Measured::Weight(void_fill_density, void_fill_density_unit)
-      end
     end
   end
 end

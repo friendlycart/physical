@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.4'
   spec.add_runtime_dependency "carmen", "~> 1.0"
   spec.add_runtime_dependency "measured", "~> 2.4.0"
+  spec.add_runtime_dependency "dry-types", "~> 1.0.0"
 
   spec.add_development_dependency "bundler", [">= 1.16", "< 3"]
   spec.add_development_dependency "factory_bot", "~> 4.8"

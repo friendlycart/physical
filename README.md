@@ -34,42 +34,108 @@ Or install it yourself as:
 
 ## Usage
 
+### Basic Package
+
+A basic Package has no items and is simply assigned a weight and dimensions. Weights and Dimensions have to be given as `Measured::Weight` or as an Array of `Measured::Length` objects:
+
 ```ruby
-one_sku = Physical::Item.new(
+Physical::Package.new(
+  weight: Measured::Weight(1, :pound),
+  dimensions: [
+    Measured::Length(3, :inch),
+    Measured::Length(4, :inch),
+    Measured::Length(5, :inch)
+  ]
+)
+```
+You will be able to retrieve the package's weight and dimensions using the `#weight` and `#dimensions` attribute reader methods.
+
+### Convenience methods
+
+The length, width and height of a package are defined as the package's longest, middle, and shortest side, respectively. For the package from the previous example, `package.length` will be 5 inches, `package.width` will be 4 inches, and `package.height` will be 3 inches. Packages do not have a notion of "right side up" yet.
+
+The package's `length` is also accessible as `package.x`. The package's `width` is also accessible as `package.y`. The package's `height` is also accessible as `package.z` as well as `package.depth`.
+
+### Packages with Items
+
+The following example is a somewhat more elaborate package: We know the items inside! `Physical::Item` objects are Cuboids, so they have three dimensions and a weight. They also have a `properties` hash that can hold things like any hazardous properties that might impede shipping.
+
+
+```ruby
+sku_one = Physical::Item.new(
   id: '12345',
-  dimensions: [2, 4, 5],
-  dimension_unit: :inch,
-  weight: 1,
-  weight_unit: :kg
+  dimensions: [
+    Measured::Length(2, :inch),
+    Measured::Length(4, :inch),
+    Measured::Length(5, :inch)
+  ],
+  weight: Measured::Weight(1, :kg),
 )
 
-two_sku = Physical::Item.new(
+sku_two = Physical::Item.new(
   id: "54321",
-  dimensions: [1, 1, 1],
-  dimension_unit: :cm,
-  weight: 2.3,
-  weight_unit: :g
+  dimensions: [
+    Measured::Length(1, :cm),
+    Measured::Length(1, :cm),
+    Measured::Length(1, :cm)
+  ],
+  weight: Measured::Weight(23, :g)
 )
+```
 
+You can initialize a package with items as follows:
+
+```ruby
+package_with_items = Physical::Package.new(
+  items: [sku_one, sku_two]
+)
+```
+
+This package has no defined container. This means we assume a box that is infinitely large, and that has zero weight. Thus the weight of this `package_with_items` will be 1023 gram (1 kg + 23 g = 1000 g + 23 g).
+
+### Packages with Boxes
+
+A package also has a box that wraps it. This box is assumed to be a Cuboid, too - but one that has inner dimensions, and a weight that is it's own weight which must be added to any item's weight in order to find out the total weight of a package.
+
+```ruby
 my_carton = Physical::Box.new(
-  dimensions: [10, 15, 15],
-  dimension_unit: :cm,
-  weight: 0.8,
-  weight_unit: :lbs
+  dimensions: [
+    Measured::Length(10, :cm),
+    Measured::Length(15, :cm),
+    Measured::Length(15, :cm)
+  ],
+  inner_dimensions: [
+    Measured::Length(9, :cm),
+    Measured::Length(14, :cm),
+    Measured::Length(14, :cm)
+  ],
+  weight: Measured::Weight(350, :g),
 )
+```
 
+If you create a carton and omit the inner dimensions, we will assume that the carton's inner dimensions are equal to its outer dimensions. This will, in many cases, be good enough (but in some you'll need the extra precision).
+
+### Calculating Void Fill
+
+For an elaborate package with a container box and items, we still cannot find out the full weight of the package without taking into account void fill (styrofoam, bubble wrap or crumpled newspaper maybe). We can instruct the package to fill up all the volume not used up by items with void fill. You can pass the density as a `Measured::Weight` object that refers to the weight of 1 cubic centimeter of void fill:
+
+```ruby
 package = Physical::Package.new(
   id: "my_package",
   container: my_carton,
-  items: [one_sku, two_sku],
-  void_fill_density: 0.007
+  items: [sku_one, sku_two],
+  void_fill_density: Measured::Weight(0.007, :g)
 )
+```
 
+In this case, the package's weight will be slightly above the sum of carton weight and the sum of item weights, as we incorporate the approximate weight of the void fill material:
+
+```ruby
 package.weight
-=> #<Measured::Weight: 1376.32851808 #<Measured::Unit: g (gram, grams)>>
+=> #<Measured::Weight: 1380.75262208 #<Measured::Unit: g (gram, grams)>>
 
 package.remaining_volume
-=> #<Measured::Volume: 1593.51744 #<Measured::Unit: ml (milliliter, millilitre, milliliters, millilitres) 1/1000 l>>
+=> #<Measured::Volume: 1107.51744 #<Measured::Unit: ml (milliliter, millilitre, milliliters, millilitres) 1/1000 l>>
 ```
 ## Development
 

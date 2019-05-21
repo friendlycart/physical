@@ -28,7 +28,7 @@ RSpec.describe Physical::Package do
 
   describe "#<<" do
     let(:args) { {} }
-    let(:item) { Physical::Item.new(dimensions: [2, 2, 2]) }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
 
     subject { package.items }
 
@@ -51,7 +51,7 @@ RSpec.describe Physical::Package do
 
   describe "#>>" do
     let(:args) { {items: [item]} }
-    let(:item) { Physical::Item.new(dimensions: [2, 2, 2]) }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
 
     subject { package.items }
 
@@ -65,10 +65,10 @@ RSpec.describe Physical::Package do
   describe "#weight" do
     let(:args) do
       {
-        container: Physical::Box.new(weight: 0.8, weight_unit: :lb),
+        container: Physical::Box.new(weight: Measured::Weight(0.8, :lb)),
         items: [
-          Physical::Item.new(weight: 0.2, weight_unit: :lb),
-          Physical::Item.new(weight: 1, weight_unit: :lb)
+          Physical::Item.new(weight: Measured::Weight(0.2, :lb)),
+          Physical::Item.new(weight: Measured::Weight(1, :lb))
         ]
       }
     end
@@ -82,7 +82,7 @@ RSpec.describe Physical::Package do
     context 'if no items given' do
       let(:args) do
         {
-          container: Physical::Box.new(weight: 0.8, weight_unit: :lb),
+          container: Physical::Box.new(weight: Measured::Weight(0.8, :lb)),
           items: []
         }
       end
@@ -91,10 +91,71 @@ RSpec.describe Physical::Package do
         expect(subject).to eq(Measured::Weight(0.8, :lb))
       end
     end
+
+    context 'with no container given but weight given' do
+      let(:args) do
+        {
+          weight: Measured::Weight(0.8, :lb),
+        }
+      end
+
+      it 'keeps that weight and has infinite dimensions' do
+        expect(package.weight).to eq(Measured::Weight(0.8, :lb))
+        expect(package.length).to eq(Measured::Length(Float::INFINITY, :cm))
+        expect(package.width).to eq(Measured::Length(Float::INFINITY, :cm))
+        expect(package.height).to eq(Measured::Length(Float::INFINITY, :cm))
+      end
+    end
+
+    context 'with no container given but dimensions given' do
+      let(:args) do
+        {
+          dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) },
+        }
+      end
+
+      it 'keeps that weight and has infinite dimensions' do
+        expect(package.weight).to eq(Measured::Weight(0, :lb))
+        expect(package.length).to eq(Measured::Length(3, :cm))
+        expect(package.width).to eq(Measured::Length(2, :cm))
+        expect(package.height).to eq(Measured::Length(1, :cm))
+      end
+    end
+
+    context 'with no container given but dimensions and weight given' do
+      let(:args) do
+        {
+          weight: Measured::Weight(0.8, :lb),
+          dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) },
+        }
+      end
+
+      it 'keeps that weight and has infinite dimensions' do
+        expect(package.weight).to eq(Measured::Weight(0.8, :lb))
+        expect(package.length).to eq(Measured::Length(3, :cm))
+        expect(package.width).to eq(Measured::Length(2, :cm))
+        expect(package.height).to eq(Measured::Length(1, :cm))
+      end
+    end
+
+    context 'with properties directly given' do
+      let(:args) do
+        {
+          properties: { foo: :bar }
+        }
+      end
+
+      it 'stores the properties on the container' do
+        aggregate_failures do
+          expect(package.properties).to eq({foo: :bar})
+          expect(package.container.properties).to eq(foo: :bar)
+        end
+      end
+    end
   end
 
   describe 'dimension methods' do
-    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3]) } }
+    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3].map { |d| Measured::Length(d, :cm)}) } }
 
     it 'forwards them to the container' do
       expect(package.length).to eq(Measured::Length(3, :cm))
@@ -106,8 +167,8 @@ RSpec.describe Physical::Package do
   describe "#remaining_volume" do
     let(:args) do
       {
-        container: Physical::Box.new(dimensions: [1, 2, 3]),
-        items: Physical::Item.new(dimensions: [1, 1, 1])
+        container: Physical::Box.new(dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) }),
+        items: Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) })
       }
     end
 
@@ -136,39 +197,26 @@ RSpec.describe Physical::Package do
     subject { FactoryBot.build(:physical_package) }
 
     it 'has plausible attributes' do
-      expect(subject.weight).to eq(Measured::Weight(1399.88, :g))
+      expect(subject.weight).to eq(Measured::Weight(1327.37, :g))
     end
   end
 
   describe '#void_fill_weight' do
     subject { package.void_fill_weight }
 
-    shared_examples 'returning a measured weight' do
-      it 'returns a measured weight' do
+    context 'when void fill density is given' do
+      let(:container) do
+        Physical::Box.new(
+          dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) },
+          inner_dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }
+        )
+      end
+
+      let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
+
+      it 'calculates the void fill weight from inner dimensions' do
         is_expected.to be_a(Measured::Weight)
         expect(subject.convert_to(:g).value.to_f).to eq(0.007)
-      end
-    end
-
-    context 'when void fill density is given' do
-      let(:container) { Physical::Box.new(dimensions: [1, 1, 1]) }
-
-      context 'as number' do
-        let(:args) { {container: container, void_fill_density: 0.007} }
-
-        it_behaves_like 'returning a measured weight'
-
-        context 'and void fill density unit given' do
-          let(:args) { {container: container, void_fill_density: 0.000007, void_fill_density_unit: :kg} }
-
-          it_behaves_like 'returning a measured weight'
-        end
-      end
-
-      context 'as measured weight' do
-        let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
-
-        it_behaves_like 'returning a measured weight'
       end
     end
   end
