@@ -137,6 +137,21 @@ RSpec.describe Physical::Package do
         expect(package.height).to eq(Measured::Length(1, :cm))
       end
     end
+
+    context 'with properties directly given' do
+      let(:args) do
+        {
+          properties: { foo: :bar }
+        }
+      end
+
+      it 'stores the properties on the container' do
+        aggregate_failures do
+          expect(package.properties).to eq({foo: :bar})
+          expect(package.container.properties).to eq(foo: :bar)
+        end
+      end
+    end
   end
 
   describe 'dimension methods' do
