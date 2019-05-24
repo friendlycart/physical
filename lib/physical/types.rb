@@ -3,7 +3,7 @@ require 'dry-types'
 
 module Physical
   module Types
-    include Dry::Types.module
+    include Dry.Types
 
     Weight = Types.Instance(::Measured::Weight)
     Length = Types.Instance(::Measured::Length)
