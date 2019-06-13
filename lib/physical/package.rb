@@ -17,6 +17,7 @@ module Physical
     def <<(item)
       @items.add(item)
     end
+    alias_method :add, :<<
 
     def >>(item)
       @items.delete(item)
