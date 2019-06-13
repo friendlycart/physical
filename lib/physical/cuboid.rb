@@ -25,6 +25,19 @@ module Physical
 
     private
 
+    def method_missing(method)
+      symbolized_properties = properties.symbolize_keys
+      if symbolized_properties.key?(method)
+        symbolized_properties[method]
+      else
+        super
+      end
+    end
+
+    def respond_to_missing?(method, *args)
+      properties.symbolize_keys.key?(method) || super
+    end
+
     def fill_dimensions(dimensions)
       dimensions.fill(dimensions.length..2) do |index|
         @dimensions[index] || Measured::Length(self.class::DEFAULT_LENGTH, :cm)
