@@ -85,6 +85,19 @@ RSpec.describe Physical::Package do
     it { is_expected.to be_empty }
   end
 
+  describe "#delete" do
+    let(:args) { {items: [item]} }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
+
+    subject { package.items }
+
+    before do
+      package.delete(item)
+    end
+
+    it { is_expected.to be_empty }
+  end
+
   describe "#weight" do
     let(:args) do
       {
