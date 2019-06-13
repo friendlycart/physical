@@ -89,6 +89,74 @@ RSpec.describe Physical::Item do
     it { is_expected.to eq(flammable: true) }
   end
 
+  describe 'properties methods' do
+    context 'if method is a property' do
+      let(:item) do
+        FactoryBot.build(:physical_item, properties: { already_packaged: true })
+      end
+
+      it 'returns its value' do
+        expect(item.already_packaged).to be(true)
+      end
+
+      it 'responds to method' do
+        expect(item.respond_to?(:already_packaged)).to be(true)
+      end
+    end
+
+    context 'if method is a string property' do
+      let(:item) do
+        FactoryBot.build(:physical_item, properties: { 'already_packaged' => true })
+      end
+
+      it 'returns its value' do
+        expect(item.already_packaged).to be(true)
+      end
+
+      it 'responds to method' do
+        expect(item.respond_to?(:already_packaged)).to be(true)
+      end
+    end
+
+    context 'if method is a boolean property' do
+      let(:item) do
+        FactoryBot.build(:physical_item, properties: { already_packaged: true })
+      end
+
+      it 'it is also accessible by its predicate method' do
+        expect(item.already_packaged?).to be(true)
+      end
+
+      it 'it also responds to its predicate method' do
+        expect(item.respond_to?(:already_packaged?)).to be(true)
+      end
+
+      context 'with a falsey value' do
+        let(:item) do
+          FactoryBot.build(:physical_item, properties: { already_packaged: false })
+        end
+
+        it 'returns its value' do
+          expect(item.already_packaged).to be(false)
+        end
+      end
+    end
+
+    context 'if method is not a property' do
+      let(:item) do
+        FactoryBot.build(:physical_item, properties: {})
+      end
+
+      it 'raises method missing' do
+        expect { item.already_packaged? }.to raise_error(NoMethodError)
+      end
+
+      it 'does not respond to method' do
+        expect(item.respond_to?(:already_packaged?)).to be(false)
+      end
+    end
+  end
+
   describe 'factory' do
     subject { FactoryBot.build(:physical_item) }
 
