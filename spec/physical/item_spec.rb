@@ -118,13 +118,27 @@ RSpec.describe Physical::Item do
       end
     end
 
-    context 'if method is a boolean property with a falsey value' do
+    context 'if method is a boolean property' do
       let(:item) do
-        FactoryBot.build(:physical_item, properties: { already_packaged: false })
+        FactoryBot.build(:physical_item, properties: { already_packaged: true })
       end
 
-      it 'returns its value' do
-        expect(item.already_packaged).to be(false)
+      it 'it is also accessible by its predicate method' do
+        expect(item.already_packaged?).to be(true)
+      end
+
+      it 'it also responds to its predicate method' do
+        expect(item.respond_to?(:already_packaged?)).to be(true)
+      end
+
+      context 'with a falsey value' do
+        let(:item) do
+          FactoryBot.build(:physical_item, properties: { already_packaged: false })
+        end
+
+        it 'returns its value' do
+          expect(item.already_packaged).to be(false)
+        end
       end
     end
 
