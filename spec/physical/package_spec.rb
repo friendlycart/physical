@@ -49,6 +49,29 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe "#add" do
+    let(:args) { {} }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
+
+    subject { package.items }
+
+    before do
+      package.add(item)
+    end
+
+    it { is_expected.to contain_exactly(item) }
+
+    context 'with an item already present' do
+      let(:args) { {items: [item]} }
+
+      before do
+        package.add(item)
+      end
+
+      it { is_expected.to contain_exactly(item) }
+    end
+  end
+
   describe "#>>" do
     let(:args) { {items: [item]} }
     let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
@@ -57,6 +80,19 @@ RSpec.describe Physical::Package do
 
     before do
       package >> item
+    end
+
+    it { is_expected.to be_empty }
+  end
+
+  describe "#delete" do
+    let(:args) { {items: [item]} }
+    let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
+
+    subject { package.items }
+
+    before do
+      package.delete(item)
     end
 
     it { is_expected.to be_empty }

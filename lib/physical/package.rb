@@ -17,10 +17,12 @@ module Physical
     def <<(item)
       @items.add(item)
     end
+    alias_method :add, :<<
 
     def >>(item)
       @items.delete(item)
     end
+    alias_method :delete, :>>
 
     def weight
       container.weight + items.map(&:weight).reduce(Measured::Weight(0, :g), &:+) + void_fill_weight
