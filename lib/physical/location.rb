@@ -77,7 +77,7 @@ module Physical
       {
         country: country.code,
         postal_code: zip,
-        province: province.code,
+        region: region.code,
         city: city,
         name: name,
         address1: address1,

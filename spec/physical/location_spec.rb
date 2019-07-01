@@ -99,4 +99,17 @@ RSpec.describe Physical::Location do
       expect(subject.company_name).to eq("Company")
     end
   end
+
+  describe 'to_hash' do
+    subject { location.to_hash }
+    let(:location) { FactoryBot.build(:physical_location) }
+
+    it do
+      is_expected.to match(
+        hash_including(
+          region: 'IL'
+        )
+      )
+    end
+  end
 end
