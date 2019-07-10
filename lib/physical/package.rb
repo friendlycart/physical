@@ -5,9 +5,9 @@ module Physical
     extend Forwardable
     attr_reader :container, :items, :void_fill_density, :id
 
-    def initialize(id: nil, container: nil, items: [], void_fill_density: Measured::Weight(0, :g), dimensions: nil, weight: nil, properties: {})
+    def initialize(id: nil, container: nil, items: [], void_fill_density: Measured::Density(0, :g_ml), dimensions: nil, weight: nil, properties: {})
       @id = id || SecureRandom.uuid
-      @void_fill_density = Types::Weight[void_fill_density]
+      @void_fill_density = Types::Density[void_fill_density]
       @container = container || Physical::Box.new(dimensions: dimensions || [], weight: weight || Measured::Weight(0, :g), properties: properties)
       @items = Set[*items]
     end
@@ -35,7 +35,7 @@ module Physical
     def void_fill_weight
       return Measured::Weight(0, :g) if container.volume.value.infinite?
 
-      Measured::Weight(void_fill_density.value * remaining_volume.value, void_fill_density.unit)
+      Measured::Weight(void_fill_density.convert_to(:g_ml).value * remaining_volume.convert_to(:ml).value, :g)
     end
 
     def density
