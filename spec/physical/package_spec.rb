@@ -256,7 +256,7 @@ RSpec.describe Physical::Package do
         )
       end
 
-      let(:args) { {container: container, void_fill_density: Measured::Weight.new(7, :mg)} }
+      let(:args) { {container: container, void_fill_density: Measured::Density.new(0.007, :g_ml)} }
 
       it 'calculates the void fill weight from inner dimensions' do
         is_expected.to be_a(Measured::Weight)
