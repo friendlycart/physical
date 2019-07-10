@@ -19,6 +19,12 @@ module Physical
       Measured::Volume(dimensions.map { |d| d.convert_to(:cm).value }.reduce(1, &:*), :ml)
     end
 
+    def density
+      return Measured::Density(Float::INFINITY, :g_ml) if volume.value.zero?
+      return Measured::Density(0.0, :g_ml) if volume.value.infinite?
+      Measured::Density(weight.convert_to(:g).value / volume.convert_to(:ml).value, :g_ml)
+    end
+
     def ==(other)
       id == other.id
     end

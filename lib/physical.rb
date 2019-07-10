@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "measured/density"
 require "physical/types"
 require "physical/version"
 require "physical/cuboid"

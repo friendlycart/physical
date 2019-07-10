@@ -256,4 +256,62 @@ RSpec.describe Physical::Package do
       end
     end
   end
+
+  describe "#density" do
+    subject { described_class.new(args).density.value.to_f }
+
+    let(:args) do
+      {
+        container: Physical::Box.new(
+          dimensions: dimensions
+        ),
+        items: [
+          Physical::Item.new(
+            dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) },
+            weight: weight
+          )
+        ]
+      }
+    end
+
+    context "if container volume is larger than 0" do
+      let(:dimensions) do
+        [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :in) }
+      end
+
+      context "if items weight is 1" do
+        let(:weight) { Measured::Weight(1, :pound) }
+
+        it "returns the density in gramms per cubiq centimeter (ml)" do
+          is_expected.to eq(3.7445758536530196)
+        end
+      end
+
+      context "if items weight is 0" do
+        let(:weight) { Measured::Weight(0, :pound) }
+
+        it { is_expected.to eq(0.0) }
+      end
+    end
+
+    context "if container volume is 0" do
+      let(:dimensions) do
+        [0, 0, 0].map { |d| Measured::Length(d, :in) }
+      end
+
+      let(:weight) { Measured::Weight(1, :pound) }
+
+      it { is_expected.to eq(Float::INFINITY) }
+    end
+
+    context "if container volume is infinite" do
+      let(:dimensions) do
+        [1, 2].map { |d| Measured::Length(d, :in) }
+      end
+
+      let(:weight) { Measured::Weight(1, :pound) }
+
+      it { is_expected.to eq(0.0) }
+    end
+  end
 end

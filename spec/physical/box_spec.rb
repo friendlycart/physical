@@ -67,6 +67,27 @@ RSpec.describe Physical::Box do
     end
   end
 
+  describe '#density' do
+    subject { described_class.new(args).density.value.to_f }
+
+    let(:args) do
+      {
+        dimensions: dimensions,
+        weight: weight
+      }
+    end
+
+    context "if volume is infinite" do
+      let(:dimensions) do
+        [1.1, 2.1].map { |d| Measured::Length(d, :in) }
+      end
+
+      let(:weight) { Measured::Weight(1, :pound) }
+
+      it { is_expected.to eq(0.0) }
+    end
+  end
+
   describe "#weight" do
     subject { described_class.new(args).weight }
 

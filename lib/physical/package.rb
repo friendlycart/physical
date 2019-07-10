@@ -37,5 +37,11 @@ module Physical
 
       Measured::Weight(void_fill_density.value * remaining_volume.value, void_fill_density.unit)
     end
+
+    def density
+      return Measured::Density(Float::INFINITY, :g_ml) if container.volume.value.zero?
+      return Measured::Density(0.0, :g_ml) if container.volume.value.infinite?
+      Measured::Density(weight.convert_to(:g).value / container.volume.convert_to(:ml).value, :g_ml)
+    end
   end
 end

@@ -67,6 +67,47 @@ RSpec.describe Physical::Item do
     end
   end
 
+  describe "#density" do
+    subject { described_class.new(args).density.value.to_f }
+
+    let(:args) do
+      {
+        dimensions: dimensions,
+        weight: weight
+      }
+    end
+
+    context "if volume is larger than 0" do
+      let(:dimensions) do
+        [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :in) }
+      end
+
+      context "if weight is 1" do
+        let(:weight) { Measured::Weight(1, :pound) }
+
+        it "returns the density in gramms per cubiq centimeter (ml)" do
+          is_expected.to eq(3.7445758536530196)
+        end
+      end
+
+      context "if weight is 0" do
+        let(:weight) { Measured::Weight(0, :pound) }
+
+        it { is_expected.to eq(0.0) }
+      end
+    end
+
+    context "if volume is 0" do
+      let(:dimensions) do
+        [1.1, 2.1].map { |d| Measured::Length(d, :in) }
+      end
+
+      let(:weight) { Measured::Weight(1, :pound) }
+
+      it { is_expected.to eq(Float::INFINITY) }
+    end
+  end
+
   describe "#weight" do
     subject { described_class.new(args).weight }
 
