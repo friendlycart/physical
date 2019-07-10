@@ -200,6 +200,14 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe '#volume' do
+    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3].map { |d| Measured::Length(d, :cm)}) } }
+
+    it 'is the container volume' do
+      expect(package.volume).to eq(Measured::Volume(6, :ml))
+    end
+  end
+
   describe "#remaining_volume" do
     let(:args) do
       {
