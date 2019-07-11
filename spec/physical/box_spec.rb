@@ -102,6 +102,20 @@ RSpec.describe Physical::Box do
     end
   end
 
+  describe "#max_weight" do
+    subject { described_class.new(args).max_weight }
+
+    context "with no max_weight given" do
+      let(:args) { {} }
+      it { is_expected.to eq(Measured::Weight(BigDecimal::INFINITY, :g)) }
+    end
+
+    context "with a max_weight unit given" do
+      let(:args) { {max_weight: Measured::Weight(1, :lbs)} }
+      it { is_expected.to eq(Measured::Weight(453.59237, :g)) }
+    end
+  end
+
   describe 'factory' do
     subject { FactoryBot.build(:physical_box) }
 
