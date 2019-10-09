@@ -18,6 +18,8 @@ RSpec.describe Physical::Location do
   it { is_expected.to respond_to(:email) }
   it { is_expected.to respond_to(:address_type) }
   it { is_expected.to respond_to(:company_name) }
+  it { is_expected.to respond_to(:latitude) }
+  it { is_expected.to respond_to(:longitude) }
 
   describe '#country' do
     subject { location.country }

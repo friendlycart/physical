@@ -18,7 +18,9 @@ module Physical
                 :fax,
                 :email,
                 :address_type,
-                :company_name
+                :company_name,
+                :latitude,
+                :longitude
 
     def initialize(
         name: nil,
@@ -33,7 +35,9 @@ module Physical
         phone: nil,
         fax: nil,
         email: nil,
-        address_type: nil
+        address_type: nil,
+        latitude: nil,
+        longitude: nil
       )
 
       if country.is_a?(Carmen::Country)
@@ -59,6 +63,8 @@ module Physical
       @fax = fax
       @email = email
       @address_type = address_type
+      @latitude = latitude
+      @longitude = longitude
     end
 
     def residential?
