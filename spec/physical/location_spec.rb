@@ -83,6 +83,19 @@ RSpec.describe Physical::Location do
       end
     end
   end
+  
+  describe "==" do
+    let(:other_location) { described_class.new(args) }
+    let(:non_location) { double(to_hash: location.to_hash) }
+    
+    it "compares locations" do
+      aggregate_failures do
+        expect(location == other_location).to be(true)
+        expect(location == non_location).to be(false)
+        expect(location == nil).to be(false)
+      end
+    end
+  end
 
   describe 'factory' do
     let(:country) { Carmen::Country.coded('us') }

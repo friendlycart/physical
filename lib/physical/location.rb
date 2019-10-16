@@ -81,9 +81,9 @@ module Physical
 
     def to_hash
       {
-        country: country.code,
+        country: country&.code,
         postal_code: zip,
-        region: region.code,
+        region: region&.code,
         city: city,
         name: name,
         address1: address1,
@@ -98,7 +98,8 @@ module Physical
     end
 
     def ==(other)
-      to_hash == other.to_hash
+      other.is_a?(self.class) &&
+        to_hash == other&.to_hash
     end
   end
 end
