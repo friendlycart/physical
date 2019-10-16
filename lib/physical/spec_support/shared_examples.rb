@@ -28,4 +28,18 @@ RSpec.shared_examples 'a cuboid' do
     expect(subject.width).to eq(Measured::Length.new(3.3, :cm))
     expect(subject.height).to eq(Measured::Length.new(2.2, :cm))
   end
+  
+  describe "#==" do
+    let(:args) { Hash[id: 123] }
+    let(:other_cuboid) { described_class.new(args) }
+    let(:non_cuboid) { double(id: 123) }
+    
+    it "compares cuboids" do
+      aggregate_failures do
+        expect(subject == other_cuboid).to be(true)
+        expect(subject == non_cuboid).to be(false)
+        expect(subject == nil).to be(false)
+      end
+    end
+  end
 end
