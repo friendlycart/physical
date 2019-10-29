@@ -7,11 +7,13 @@ module Physical
     DEFAULT_LENGTH = 0
 
     attr_reader :cost,
-                :sku
+                :sku,
+                :description
 
-    def initialize(cost: nil, sku: nil, **kwargs)
+    def initialize(cost: nil, sku: nil, description: nil, **kwargs)
       @cost = cost
       @sku = sku
+      @description = description
       super kwargs
     end
   end
