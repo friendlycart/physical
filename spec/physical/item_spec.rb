@@ -47,6 +47,48 @@ RSpec.describe Physical::Item do
     end
   end
 
+  describe "#cost" do
+    let(:args) { {} }
+
+    subject { described_class.new(args).cost }
+
+    it { is_expected.to be nil }
+
+    context 'if cost is given' do
+      let(:args) { {cost: Money.new(12345, 'USD')} }
+
+      it { is_expected.to eq(Money.new(12345, 'USD')) }
+    end
+  end
+
+  describe "#sku" do
+    let(:args) { {} }
+
+    subject { described_class.new(args).sku }
+
+    it { is_expected.to be nil }
+
+    context 'if sku is given' do
+      let(:args) { {sku: 'my_sku'} }
+
+      it { is_expected.to eq('my_sku') }
+    end
+  end
+
+  describe "#description" do
+    let(:args) { {} }
+
+    subject { described_class.new(args).description }
+
+    it { is_expected.to be nil }
+
+    context 'if description is given' do
+      let(:args) { {description: 'Very Beautiful Earrings'} }
+
+      it { is_expected.to eq('Very Beautiful Earrings') }
+    end
+  end
+
   describe "#volume" do
     subject { described_class.new(args).volume }
 
