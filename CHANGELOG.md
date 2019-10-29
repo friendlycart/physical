@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.4.4] - 2019-10-29
+### Added
+- Add `#sku`, `#cost` and `#description` to `Physical::Item`
+
 ## [0.4.3] - 2019-10-14
 ### Added
 - Add `#latitude` and `#longitude` to `Physical::Location`
