@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'money'
-
 module Physical
   class Item < Cuboid
     DEFAULT_LENGTH = 0
@@ -11,7 +9,7 @@ module Physical
                 :description
 
     def initialize(cost: nil, sku: nil, description: nil, **kwargs)
-      @cost = cost
+      @cost = Types::Money.optional[cost]
       @sku = sku
       @description = description
       super kwargs
