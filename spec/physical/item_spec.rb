@@ -61,6 +61,20 @@ RSpec.describe Physical::Item do
     end
   end
 
+  describe "#sku" do
+    let(:args) { {} }
+
+    subject { described_class.new(args).sku }
+
+    it { is_expected.to be nil }
+
+    context 'if sku is given' do
+      let(:args) { {sku: 'my_sku'} }
+
+      it { is_expected.to eq('my_sku') }
+    end
+  end
+
   describe "#volume" do
     subject { described_class.new(args).volume }
 
