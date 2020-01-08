@@ -2,7 +2,7 @@
 
 RSpec.describe Physical::Shipment do
   let(:args) { {} }
-  subject(:shipment) { described_class.new(args) }
+  subject(:shipment) { described_class.new(**args) }
 
   describe '#packages' do
     subject { shipment.packages }

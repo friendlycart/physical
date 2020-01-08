@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Box do
-  subject { described_class.new(args) }
+  subject { described_class.new(**args) }
 
   it_behaves_like 'a cuboid'
 
@@ -48,7 +48,7 @@ RSpec.describe Physical::Box do
   end
 
   describe "#volume" do
-    subject { described_class.new(args).volume }
+    subject { described_class.new(**args).volume }
 
     context "if all three dimensions are given" do
       let(:args) { {dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) }} }
@@ -68,7 +68,7 @@ RSpec.describe Physical::Box do
   end
 
   describe '#density' do
-    subject { described_class.new(args).density.value.to_f }
+    subject { described_class.new(**args).density.value.to_f }
 
     let(:args) do
       {
@@ -89,7 +89,7 @@ RSpec.describe Physical::Box do
   end
 
   describe "#weight" do
-    subject { described_class.new(args).weight }
+    subject { described_class.new(**args).weight }
 
     context "with no weight given" do
       let(:args) { {} }
@@ -103,7 +103,7 @@ RSpec.describe Physical::Box do
   end
 
   describe "#max_weight" do
-    subject { described_class.new(args).max_weight }
+    subject { described_class.new(**args).max_weight }
 
     context "with no max_weight given" do
       let(:args) { {} }
@@ -126,7 +126,7 @@ RSpec.describe Physical::Box do
   end
 
   describe '#inner_dimensions' do
-    subject { described_class.new(args).inner_dimensions }
+    subject { described_class.new(**args).inner_dimensions }
 
     context 'if all values are given' do
       let(:args) do
@@ -164,7 +164,7 @@ RSpec.describe Physical::Box do
   end
 
   describe 'inner length, width, height, volume' do
-    subject { described_class.new(args) }
+    subject { described_class.new(**args) }
 
     let(:args) do
       {

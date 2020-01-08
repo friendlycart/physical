@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Item do
-  subject(:item) { described_class.new(args) }
+  subject(:item) { described_class.new(**args) }
 
   it_behaves_like 'a cuboid'
 
@@ -50,7 +50,7 @@ RSpec.describe Physical::Item do
   describe "#cost" do
     let(:args) { {} }
 
-    subject { described_class.new(args).cost }
+    subject { described_class.new(**args).cost }
 
     it { is_expected.to be nil }
 
@@ -64,7 +64,7 @@ RSpec.describe Physical::Item do
   describe "#sku" do
     let(:args) { {} }
 
-    subject { described_class.new(args).sku }
+    subject { described_class.new(**args).sku }
 
     it { is_expected.to be nil }
 
@@ -78,7 +78,7 @@ RSpec.describe Physical::Item do
   describe "#description" do
     let(:args) { {} }
 
-    subject { described_class.new(args).description }
+    subject { described_class.new(**args).description }
 
     it { is_expected.to be nil }
 
@@ -90,7 +90,7 @@ RSpec.describe Physical::Item do
   end
 
   describe "#volume" do
-    subject { described_class.new(args).volume }
+    subject { described_class.new(**args).volume }
 
     context "if all three dimensions are given" do
       let(:args) { {dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) }} }
@@ -110,7 +110,7 @@ RSpec.describe Physical::Item do
   end
 
   describe "#density" do
-    subject { described_class.new(args).density.value.to_f }
+    subject { described_class.new(**args).density.value.to_f }
 
     let(:args) do
       {
@@ -151,7 +151,7 @@ RSpec.describe Physical::Item do
   end
 
   describe "#weight" do
-    subject { described_class.new(args).weight }
+    subject { described_class.new(**args).weight }
 
     context "with no weight given" do
       let(:args) { {} }

@@ -3,7 +3,7 @@
 RSpec.describe Physical::Location do
   let(:args) { {} }
 
-  subject(:location) { described_class.new(args) }
+  subject(:location) { described_class.new(**args) }
 
   it { is_expected.to respond_to(:country) }
   it { is_expected.to respond_to(:zip) }
@@ -85,7 +85,7 @@ RSpec.describe Physical::Location do
   end
   
   describe "==" do
-    let(:other_location) { described_class.new(args) }
+    let(:other_location) { described_class.new(**args) }
     let(:non_location) { double(to_hash: location.to_hash) }
     
     it "compares locations" do
