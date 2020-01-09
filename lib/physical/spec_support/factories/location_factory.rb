@@ -12,7 +12,7 @@ FactoryBot.define do
     address1 { '11 Lovely Street' }
     address2 { 'South' }
     city { 'Herndon' }
-    sequence(:zip, 10001) { |i| i.to_s }
+    sequence(:zip, 10_001, &:to_s)
     phone { '555-555-0199' }
     region { country.subregions.coded(region_code) }
     country { Carmen::Country.coded(country_code) }

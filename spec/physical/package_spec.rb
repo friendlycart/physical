@@ -39,7 +39,7 @@ RSpec.describe Physical::Package do
     it { is_expected.to contain_exactly(item) }
 
     context 'with an item already present' do
-      let(:args) { {items: [item]} }
+      let(:args) { { items: [item] } }
 
       before do
         package << item
@@ -62,7 +62,7 @@ RSpec.describe Physical::Package do
     it { is_expected.to contain_exactly(item) }
 
     context 'with an item already present' do
-      let(:args) { {items: [item]} }
+      let(:args) { { items: [item] } }
 
       before do
         package.add(item)
@@ -73,7 +73,7 @@ RSpec.describe Physical::Package do
   end
 
   describe "#>>" do
-    let(:args) { {items: [item]} }
+    let(:args) { { items: [item] } }
     let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
 
     subject { package.items }
@@ -86,7 +86,7 @@ RSpec.describe Physical::Package do
   end
 
   describe "#delete" do
-    let(:args) { {items: [item]} }
+    let(:args) { { items: [item] } }
     let(:item) { Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) }) }
 
     subject { package.items }
@@ -183,7 +183,7 @@ RSpec.describe Physical::Package do
 
       it 'stores the properties on the container' do
         aggregate_failures do
-          expect(package.properties).to eq({foo: :bar})
+          expect(package.properties).to eq(foo: :bar)
           expect(package.container.properties).to eq(foo: :bar)
         end
       end
@@ -191,7 +191,7 @@ RSpec.describe Physical::Package do
   end
 
   describe 'dimension methods' do
-    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3].map { |d| Measured::Length(d, :cm)}) } }
+    let(:args) { { container: Physical::Box.new(dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) }) } }
 
     it 'forwards them to the container' do
       expect(package.length).to eq(Measured::Length(1, :cm))
@@ -201,7 +201,7 @@ RSpec.describe Physical::Package do
   end
 
   describe '#volume' do
-    let(:args) { { container: Physical::Box.new(dimensions: [1,2,3].map { |d| Measured::Length(d, :cm)}) } }
+    let(:args) { { container: Physical::Box.new(dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) }) } }
 
     it 'is the container volume' do
       expect(package.volume).to eq(Measured::Volume(6, :ml))
@@ -225,7 +225,7 @@ RSpec.describe Physical::Package do
     subject { package.id }
 
     context "id is given" do
-      let(:args) { {id: "12345"} }
+      let(:args) { { id: "12345" } }
 
       it { is_expected.to eq("12345") }
     end
@@ -256,7 +256,7 @@ RSpec.describe Physical::Package do
         )
       end
 
-      let(:args) { {container: container, void_fill_density: Measured::Density.new(0.007, :g_ml)} }
+      let(:args) { { container: container, void_fill_density: Measured::Density.new(0.007, :g_ml) } }
 
       it 'calculates the void fill weight from inner dimensions' do
         is_expected.to be_a(Measured::Weight)

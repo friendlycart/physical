@@ -14,13 +14,13 @@ module Physical
 
     delegate [:dimensions, :width, :length, :height, :properties, :volume] => :container
 
-    def <<(item)
-      @items.add(item)
+    def <<(other)
+      @items.add(other)
     end
     alias_method :add, :<<
 
-    def >>(item)
-      @items.delete(item)
+    def >>(other)
+      @items.delete(other)
     end
     alias_method :delete, :>>
 
@@ -41,6 +41,7 @@ module Physical
     def density
       return Measured::Density(Float::INFINITY, :g_ml) if container.volume.value.zero?
       return Measured::Density(0.0, :g_ml) if container.volume.value.infinite?
+
       Measured::Density(weight.convert_to(:g).value / container.volume.convert_to(:ml).value, :g_ml)
     end
   end

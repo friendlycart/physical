@@ -6,7 +6,7 @@ RSpec.describe Physical::Box do
   it_behaves_like 'a cuboid'
 
   context "when given a one-element dimensions array" do
-    let(:args) { {dimensions: [Measured::Length(2, :cm)]} }
+    let(:args) { { dimensions: [Measured::Length(2, :cm)] } }
 
     specify "the other dimensions are filled up with BigDecimal::INFINITY" do
       expect(subject.dimensions).to eq(
@@ -20,7 +20,7 @@ RSpec.describe Physical::Box do
   end
 
   context "when given a two-element dimensions array" do
-    let(:args) { {dimensions: [1, 2].map { |d| Measured::Length(d, :cm) }} }
+    let(:args) { { dimensions: [1, 2].map { |d| Measured::Length(d, :cm) } } }
 
     it "the last dimension is filled up with BigDecimal::INFINITY" do
       expect(subject.dimensions).to eq(
@@ -51,7 +51,7 @@ RSpec.describe Physical::Box do
     subject { described_class.new(**args).volume }
 
     context "if all three dimensions are given" do
-      let(:args) { {dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) }} }
+      let(:args) { { dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) } } }
 
       it "returns the correct volume" do
         expect(subject).to eq(Measured::Volume(7.392, :ml))
@@ -59,7 +59,7 @@ RSpec.describe Physical::Box do
     end
 
     context "if a dimension is missing" do
-      let(:args) { {dimensions: [1.1, 2.1].map { |d| Measured::Length(d, :cm) }} }
+      let(:args) { { dimensions: [1.1, 2.1].map { |d| Measured::Length(d, :cm) } } }
 
       it "is infinitely large" do
         expect(subject).to eq(Measured::Volume(BigDecimal::INFINITY, :ml))
@@ -97,7 +97,7 @@ RSpec.describe Physical::Box do
     end
 
     context "with a weight unit given" do
-      let(:args) { {weight: Measured::Weight(1, :lbs)} }
+      let(:args) { { weight: Measured::Weight(1, :lbs) } }
       it { is_expected.to eq(Measured::Weight(453.59237, :g)) }
     end
   end
@@ -111,7 +111,7 @@ RSpec.describe Physical::Box do
     end
 
     context "with a max_weight unit given" do
-      let(:args) { {max_weight: Measured::Weight(1, :lbs)} }
+      let(:args) { { max_weight: Measured::Weight(1, :lbs) } }
       it { is_expected.to eq(Measured::Weight(453.59237, :g)) }
     end
   end
@@ -138,10 +138,10 @@ RSpec.describe Physical::Box do
 
       it do
         is_expected.to eq([
-          Measured::Length.new(3, :cm),
-          Measured::Length.new(1, :cm),
-          Measured::Length.new(2, :cm)
-        ])
+                            Measured::Length.new(3, :cm),
+                            Measured::Length.new(1, :cm),
+                            Measured::Length.new(2, :cm)
+                          ])
       end
     end
 
@@ -155,10 +155,10 @@ RSpec.describe Physical::Box do
 
       it 'fills up with the outer dimensions' do
         is_expected.to eq([
-          Measured::Length.new(2, :cm),
-          Measured::Length.new(1, :cm),
-          Measured::Length.new(3.2, :cm)
-        ])
+                            Measured::Length.new(2, :cm),
+                            Measured::Length.new(1, :cm),
+                            Measured::Length.new(3.2, :cm)
+                          ])
       end
     end
   end

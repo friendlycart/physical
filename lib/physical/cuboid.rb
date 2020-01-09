@@ -22,6 +22,7 @@ module Physical
     def density
       return Measured::Density(Float::INFINITY, :g_ml) if volume.value.zero?
       return Measured::Density(0.0, :g_ml) if volume.value.infinite?
+
       Measured::Density(weight.convert_to(:g).value / volume.convert_to(:ml).value, :g_ml)
     end
 
@@ -32,7 +33,7 @@ module Physical
 
     private
 
-    NORMALIZED_METHOD_REGEX = /(\w+)\??$/
+    NORMALIZED_METHOD_REGEX = /(\w+)\??$/.freeze
 
     def method_missing(method)
       symbolized_properties = properties.symbolize_keys

@@ -6,7 +6,7 @@ RSpec.describe Physical::Item do
   it_behaves_like 'a cuboid'
 
   context "when given a one-element dimensions array" do
-    let(:args) { {dimensions: [Measured::Length(2, :cm)]} }
+    let(:args) { { dimensions: [Measured::Length(2, :cm)] } }
 
     specify "the other dimensions are filled up with 0" do
       expect(subject.dimensions).to eq(
@@ -20,7 +20,7 @@ RSpec.describe Physical::Item do
   end
 
   context "when given a two-element dimensions array" do
-    let(:args) { {dimensions: [1, 2].map { |d| Measured::Length(d, :cm) }} }
+    let(:args) { { dimensions: [1, 2].map { |d| Measured::Length(d, :cm) } } }
 
     it "the last dimension is filled up with 0" do
       expect(subject.dimensions).to eq(
@@ -55,9 +55,9 @@ RSpec.describe Physical::Item do
     it { is_expected.to be nil }
 
     context 'if cost is given' do
-      let(:args) { {cost: Money.new(12345, 'USD')} }
+      let(:args) { { cost: Money.new(12_345, 'USD') } }
 
-      it { is_expected.to eq(Money.new(12345, 'USD')) }
+      it { is_expected.to eq(Money.new(12_345, 'USD')) }
     end
   end
 
@@ -69,7 +69,7 @@ RSpec.describe Physical::Item do
     it { is_expected.to be nil }
 
     context 'if sku is given' do
-      let(:args) { {sku: 'my_sku'} }
+      let(:args) { { sku: 'my_sku' } }
 
       it { is_expected.to eq('my_sku') }
     end
@@ -83,7 +83,7 @@ RSpec.describe Physical::Item do
     it { is_expected.to be nil }
 
     context 'if description is given' do
-      let(:args) { {description: 'Very Beautiful Earrings'} }
+      let(:args) { { description: 'Very Beautiful Earrings' } }
 
       it { is_expected.to eq('Very Beautiful Earrings') }
     end
@@ -93,7 +93,7 @@ RSpec.describe Physical::Item do
     subject { described_class.new(**args).volume }
 
     context "if all three dimensions are given" do
-      let(:args) { {dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) }} }
+      let(:args) { { dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) } } }
 
       it "returns the correct volume" do
         expect(subject).to eq(Measured::Volume(7.392, :ml))
@@ -101,7 +101,7 @@ RSpec.describe Physical::Item do
     end
 
     context "if a dimension is missing" do
-      let(:args) { {dimensions: [1.1, 2.1].map { |d| Measured::Length(d, :cm) }} }
+      let(:args) { { dimensions: [1.1, 2.1].map { |d| Measured::Length(d, :cm) } } }
 
       it "returns the correct volume" do
         expect(subject).to eq(Measured::Volume(0, :ml))
@@ -159,13 +159,13 @@ RSpec.describe Physical::Item do
     end
 
     context "with a weight" do
-      let(:args) { {weight: Measured::Weight(1, :lb)} }
+      let(:args) { { weight: Measured::Weight(1, :lb) } }
       it { is_expected.to eq(Measured::Weight(453.59237, :g)) }
     end
   end
 
   describe '#properties' do
-    let(:args) { {properties: {flammable: true}} }
+    let(:args) { { properties: { flammable: true } } }
 
     subject { item.properties }
 

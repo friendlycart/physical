@@ -12,7 +12,7 @@ module Physical
       @cost = Types::Money.optional[cost]
       @sku = sku
       @description = description
-      super **kwargs
+      super(**kwargs)
     end
   end
 end
