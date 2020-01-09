@@ -7,5 +7,6 @@ gemspec
 
 group :test do
   gem 'rspec_junit_formatter'
+  gem 'rubocop'
   gem 'simplecov', require: false
 end
