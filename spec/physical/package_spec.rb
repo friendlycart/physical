@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Package do
-  subject(:package) { described_class.new(args) }
+  subject(:package) { described_class.new(**args) }
 
   context 'with no args given' do
     let(:args) { {} }
@@ -266,7 +266,7 @@ RSpec.describe Physical::Package do
   end
 
   describe "#density" do
-    subject { described_class.new(args).density.value.to_f }
+    subject { described_class.new(**args).density.value.to_f }
 
     let(:args) do
       {

@@ -14,7 +14,7 @@ module Physical
                 :max_weight
 
     def initialize(inner_dimensions: [], max_weight: Measured::Weight(DEFAULT_MAX_WEIGHT, :g), **args)
-      super args
+      super **args
       @inner_dimensions = fill_dimensions(Types::Dimensions[inner_dimensions])
       @inner_length, @inner_width, @inner_height = *@inner_dimensions
       @max_weight = Types::Weight[max_weight]

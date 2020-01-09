@@ -31,7 +31,7 @@ RSpec.shared_examples 'a cuboid' do
   
   describe "#==" do
     let(:args) { Hash[id: 123] }
-    let(:other_cuboid) { described_class.new(args) }
+    let(:other_cuboid) { described_class.new(**args) }
     let(:non_cuboid) { double(id: 123) }
     
     it "compares cuboids" do
