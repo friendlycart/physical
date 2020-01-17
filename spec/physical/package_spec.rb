@@ -206,6 +206,14 @@ RSpec.describe Physical::Package do
     it 'is the container volume' do
       expect(package.volume).to eq(Measured::Volume(6, :ml))
     end
+
+    describe 'rounding dimensions' do
+      let(:args) { { container: Physical::Box.new(dimensions: [0.5,1.8,3.2].map { |d| Measured::Length(d, :cm)}) } }
+
+      it 'rounds dimensions before calculating volume' do
+        expect(package.volume(round_dimensions: true)).to eq(Measured::Volume(6, :ml))
+      end
+    end
   end
 
   describe "#remaining_volume" do

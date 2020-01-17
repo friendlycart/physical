@@ -15,8 +15,11 @@ module Physical
       @properties = properties
     end
 
-    def volume
-      Measured::Volume(dimensions.map { |d| d.convert_to(:cm).value }.reduce(1, &:*), :ml)
+    def volume(round_dimensions: false)
+      dimension_values = dimensions.map { |d| d.convert_to(:cm).value }
+      dimension_values = dimension_values.map(&:round) if round_dimensions
+      volume = dimension_values.reduce(1, &:*)
+      Measured::Volume(volume, :ml)
     end
 
     def density
