@@ -28,14 +28,14 @@ RSpec.describe Physical::Location do
 
     context 'with a Carmen::Country given' do
       let(:country) { Carmen::Country.coded('us') }
-      let(:args) { {country: country} }
+      let(:args) { { country: country } }
 
       it { is_expected.to eq(country) }
     end
 
     context 'with a country code given' do
       let(:country) { :us }
-      let(:args) { {country: country} }
+      let(:args) { { country: country } }
 
       it { is_expected.to eq(Carmen::Country.coded('us')) }
     end
@@ -53,46 +53,46 @@ RSpec.describe Physical::Location do
       it { is_expected.to be_nil }
 
       context 'but a subregion given' do
-        let(:args) { {region: subregion } }
+        let(:args) { { region: subregion } }
 
         it { is_expected.to eq(subregion) }
       end
     end
 
     context 'with a Carmen::Country given' do
-      let(:args) { {country: country} }
+      let(:args) { { country: country } }
 
       it { is_expected.to be_nil }
 
       context 'with a region code given' do
-        let(:args) { {country: country, region: :il} }
+        let(:args) { { country: country, region: :il } }
 
         it { is_expected.to eq(subregion) }
       end
     end
 
     context 'with a country code given' do
-      let(:args) { {country: "US"} }
+      let(:args) { { country: "US" } }
 
       it { is_expected.to be_nil }
 
       context 'with a region code given' do
-        let(:args) { {country: "US", region: :il} }
+        let(:args) { { country: "US", region: :il } }
 
         it { is_expected.to eq(subregion) }
       end
     end
   end
-  
+
   describe "==" do
     let(:other_location) { described_class.new(**args) }
     let(:non_location) { double(to_hash: location.to_hash) }
-    
+
     it "compares locations" do
       aggregate_failures do
         expect(location == other_location).to be(true)
         expect(location == non_location).to be(false)
-        expect(location == nil).to be(false)
+        expect(location.nil?).to be(false)
       end
     end
   end

@@ -4,7 +4,7 @@ require 'carmen'
 
 module Physical
   class Location
-    ADDRESS_TYPES = %w(residential commercial po_box)
+    ADDRESS_TYPES = %w(residential commercial po_box).freeze
 
     attr_reader :country,
                 :zip,
@@ -23,28 +23,28 @@ module Physical
                 :longitude
 
     def initialize(
-        name: nil,
-        company_name: nil,
-        address1: nil,
-        address2: nil,
-        address3: nil,
-        city: nil,
-        region: nil,
-        zip: nil,
-        country: nil,
-        phone: nil,
-        fax: nil,
-        email: nil,
-        address_type: nil,
-        latitude: nil,
-        longitude: nil
-      )
+      name: nil,
+      company_name: nil,
+      address1: nil,
+      address2: nil,
+      address3: nil,
+      city: nil,
+      region: nil,
+      zip: nil,
+      country: nil,
+      phone: nil,
+      fax: nil,
+      email: nil,
+      address_type: nil,
+      latitude: nil,
+      longitude: nil
+    )
 
-      if country.is_a?(Carmen::Country)
-        @country = country
-      else
-        @country = Carmen::Country.coded(country.to_s)
-      end
+      @country = if country.is_a?(Carmen::Country)
+                   country
+                 else
+                   Carmen::Country.coded(country.to_s)
+                 end
 
       if region.is_a?(Carmen::Region)
         @region = region
