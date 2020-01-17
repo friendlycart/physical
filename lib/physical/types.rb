@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'measured'
-require 'money'
 require 'dry-types'
 
 module Physical

@@ -5,6 +5,10 @@ SimpleCov.start do
   add_filter '/spec/'
 end
 
+require "money"
+# Explicitly configure the default rounding mode to avoid deprecation warnings
+Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
+
 require "bundler/setup"
 require "physical"
 require "physical/spec_support/factories"
