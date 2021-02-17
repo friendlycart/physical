@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-require 'factory_bot'
-require_relative 'location_factory'
-require_relative 'package_factory'
-
 FactoryBot.define do
   factory :physical_shipment, class: "Physical::Shipment" do
     origin { FactoryBot.build(:physical_location) }

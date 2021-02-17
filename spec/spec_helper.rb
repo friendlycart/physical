@@ -11,8 +11,12 @@ Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 
 require "bundler/setup"
 require "physical"
-require "physical/spec_support/factories"
 require "physical/spec_support/shared_examples"
+require "factory_bot"
+require "physical/test_support"
+
+FactoryBot.definition_file_paths.concat(Physical::TestSupport.factory_paths)
+FactoryBot.reload
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
