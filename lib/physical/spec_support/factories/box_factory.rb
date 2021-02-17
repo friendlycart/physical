@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'factory_bot'
-
 FactoryBot.define do
   factory :physical_box, class: "Physical::Box" do
     dimensions { [20, 15, 30].map { |d| Measured::Length(d, :cm) } }
