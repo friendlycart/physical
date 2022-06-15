@@ -17,6 +17,13 @@ Measured::Density = Measured.build do
     :grams_per_millilitre
   ], value: '1000 kg_m3'
 
+  unit :g_l, aliases: [
+    :gram_per_liter,
+    :gram_per_litre,
+    :grams_per_liter,
+    :grams_per_litre
+  ], value: '1 kg_m3'
+
   # UPS Freight classes use pound per cubic feet as density unit
   unit :lb_ft3, aliases: [
     :lbs_ft3,
