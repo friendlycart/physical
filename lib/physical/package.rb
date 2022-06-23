@@ -28,8 +28,13 @@ module Physical
       container.weight + items.map(&:weight).reduce(Measured::Weight(0, :g), &:+) + void_fill_weight
     end
 
+    # @return [Measured::Volume]
+    def used_volume
+      items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
+    end
+
     def remaining_volume
-      container.inner_volume - items.map(&:volume).reduce(Measured::Volume(0, :ml), &:+)
+      container.inner_volume - used_volume
     end
 
     def void_fill_weight

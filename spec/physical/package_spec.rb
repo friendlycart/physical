@@ -208,6 +208,18 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe "#used_volume" do
+    let(:args) do
+      {
+        items: Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) })
+      }
+    end
+
+    subject { package.used_volume }
+
+    it { is_expected.to eq(Measured::Volume(1, :ml)) }
+  end
+
   describe "#remaining_volume" do
     let(:args) do
       {
