@@ -182,4 +182,47 @@ RSpec.describe Physical::Box do
       end
     end
   end
+
+  describe "#item_fits?" do
+    let(:args) do
+      {
+        dimensions: [15, 10, 5].map { |d| Measured::Length(d, :cm) },
+        max_weight: Measured::Weight(5, :g)
+      }
+    end
+
+    subject { described_class.new(**args).item_fits?(item) }
+
+    context "with item that fits" do
+      let(:item) do
+        Physical::Item.new(
+          dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) },
+          weight: Measured::Weight(3, :g)
+        )
+      end
+      it { is_expected.to be(true) }
+    end
+
+    context "with item that is too big" do
+      let(:item) do
+        Physical::Item.new(
+          dimensions: [20, 15, 10].map { |d| Measured::Length(d, :cm) },
+          weight: Measured::Weight(3, :g)
+        )
+      end
+
+      it { is_expected.to be(false) }
+    end
+
+    context "with item that is too heavy" do
+      let(:item) do
+        Physical::Item.new(
+          dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) },
+          weight: Measured::Weight(10, :g)
+        )
+      end
+
+      it { is_expected.to be(false) }
+    end
+  end
 end
