@@ -25,7 +25,18 @@ module Physical
     alias_method :delete, :>>
 
     def weight
-      container.weight + items.map(&:weight).reduce(Measured::Weight(0, :g), &:+) + void_fill_weight
+      container.weight + items_weight + void_fill_weight
+    end
+
+    # @return [Measured::Weight]
+    def items_weight
+      items.map(&:weight).reduce(Measured::Weight(0, :g), &:+)
+    end
+
+    def void_fill_weight
+      return Measured::Weight(0, :g) if container.volume.value.infinite?
+
+      Measured::Weight(void_fill_density.convert_to(:g_ml).value * remaining_volume.convert_to(:ml).value, :g)
     end
 
     # @return [Measured::Volume]
@@ -35,12 +46,6 @@ module Physical
 
     def remaining_volume
       container.inner_volume - used_volume
-    end
-
-    def void_fill_weight
-      return Measured::Weight(0, :g) if container.volume.value.infinite?
-
-      Measured::Weight(void_fill_density.convert_to(:g_ml).value * remaining_volume.convert_to(:ml).value, :g)
     end
 
     def density
