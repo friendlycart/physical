@@ -124,4 +124,47 @@ RSpec.describe Physical::Pallet do
       expect(subject.weight.convert_to(:kg).value).to eq(22)
     end
   end
+
+  describe "#package_fits?" do
+    let(:args) do
+      {
+        dimensions: [165, 120, 80].map { |d| Measured::Length(d, :cm) },
+        max_weight: Measured::Weight(2000, :lbs)
+      }
+    end
+
+    subject { described_class.new(**args).package_fits?(package) }
+
+    context "with package that fits" do
+      let(:package) do
+        Physical::Package.new(
+          dimensions: [50, 40, 25].map { |d| Measured::Length(d, :cm) },
+          weight: Measured::Weight(100, :lbs)
+        )
+      end
+      it { is_expected.to be(true) }
+    end
+
+    context "with package that is too big" do
+      let(:package) do
+        Physical::Package.new(
+          dimensions: [200, 150, 120].map { |d| Measured::Length(d, :cm) },
+          weight: Measured::Weight(100, :lbs)
+        )
+      end
+
+      it { is_expected.to be(false) }
+    end
+
+    context "with package that is too heavy" do
+      let(:package) do
+        Physical::Package.new(
+          dimensions: [50, 40, 25].map { |d| Measured::Length(d, :cm) },
+          weight: Measured::Weight(2500, :lbs)
+        )
+      end
+
+      it { is_expected.to be(false) }
+    end
+  end
 end

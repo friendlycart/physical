@@ -190,6 +190,41 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe '#items_weight' do
+    let(:args) do
+      {
+        items: [
+          Physical::Item.new(weight: Measured::Weight(0.2, :lb)),
+          Physical::Item.new(weight: Measured::Weight(1, :lb))
+        ]
+      }
+    end
+
+    subject { package.items_weight }
+
+    it { is_expected.to eq(Measured::Weight(544.310844, :g)) }
+  end
+
+  describe '#void_fill_weight' do
+    subject { package.void_fill_weight }
+
+    context 'when void fill density is given' do
+      let(:container) do
+        Physical::Box.new(
+          dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) },
+          inner_dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }
+        )
+      end
+
+      let(:args) { { container: container, void_fill_density: Measured::Density.new(0.007, :g_ml) } }
+
+      it 'calculates the void fill weight from inner dimensions' do
+        is_expected.to be_a(Measured::Weight)
+        expect(subject.convert_to(:g).value.to_f).to eq(0.007)
+      end
+    end
+  end
+
   describe 'dimension methods' do
     let(:args) { { container: Physical::Box.new(dimensions: [1, 2, 3].map { |d| Measured::Length(d, :cm) }) } }
 
@@ -206,6 +241,18 @@ RSpec.describe Physical::Package do
     it 'is the container volume' do
       expect(package.volume).to eq(Measured::Volume(6, :ml))
     end
+  end
+
+  describe "#used_volume" do
+    let(:args) do
+      {
+        items: Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) })
+      }
+    end
+
+    subject { package.used_volume }
+
+    it { is_expected.to eq(Measured::Volume(1, :ml)) }
   end
 
   describe "#remaining_volume" do
@@ -242,26 +289,6 @@ RSpec.describe Physical::Package do
 
     it 'has plausible attributes' do
       expect(subject.weight).to eq(Measured::Weight(277.02, :g))
-    end
-  end
-
-  describe '#void_fill_weight' do
-    subject { package.void_fill_weight }
-
-    context 'when void fill density is given' do
-      let(:container) do
-        Physical::Box.new(
-          dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) },
-          inner_dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }
-        )
-      end
-
-      let(:args) { { container: container, void_fill_density: Measured::Density.new(0.007, :g_ml) } }
-
-      it 'calculates the void fill weight from inner dimensions' do
-        is_expected.to be_a(Measured::Weight)
-        expect(subject.convert_to(:g).value.to_f).to eq(0.007)
-      end
     end
   end
 
