@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Pallet do
+  let(:args) { {} }
   subject { described_class.new(**args) }
 
   it_behaves_like 'a cuboid'
+
+  it { is_expected.to respond_to(:inner_volume) }
+  it { is_expected.to respond_to(:inner_dimensions) }
+  it { is_expected.to respond_to(:inner_length) }
+  it { is_expected.to respond_to(:inner_width) }
+  it { is_expected.to respond_to(:inner_height) }
 
   context "when given a one-element dimensions array" do
     let(:args) { { dimensions: [Measured::Length(2, :cm)] } }

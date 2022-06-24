@@ -14,6 +14,12 @@ module Physical
       @max_weight = Types::Weight[max_weight]
     end
 
+    alias_method :inner_volume, :volume
+    alias_method :inner_dimensions, :dimensions
+    alias_method :inner_length, :length
+    alias_method :inner_width, :width
+    alias_method :inner_height, :height
+
     # @param [Physical::Package] package
     # @return [Boolean]
     def package_fits?(package)
