@@ -16,6 +16,6 @@ FactoryBot.define do
     phone { '555-555-0199' }
     region { country.subregions.coded(region_code) }
     country { Carmen::Country.coded(country_code) }
-    initialize_with { new(attributes) }
+    initialize_with { new(**attributes) }
   end
 end

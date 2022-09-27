@@ -13,7 +13,9 @@ module Physical
                 :inner_height,
                 :max_weight
 
-    def initialize(inner_dimensions: [], max_weight: Measured::Weight(DEFAULT_MAX_WEIGHT, :g), **args)
+    def initialize(**args)
+      inner_dimensions = args.delete(:inner_dimensions) || []
+      max_weight = args.delete(:max_weight) || Measured::Weight(DEFAULT_MAX_WEIGHT, :g)
       super(**args)
       @inner_dimensions = fill_dimensions(Types::Dimensions[inner_dimensions])
       @inner_length, @inner_width, @inner_height = *@inner_dimensions
