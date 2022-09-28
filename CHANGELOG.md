@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.4.5] - 2022-09-28
+### Added
+- Add `Physical::Pallet` class [#12]
+- Convenience methods for weight, volume, and fill [#15]
+- Add inner dimensions for `Pallet` class [#16]
+
+### Changed
+- Fix Ruby 2.7 deprecation warnings [#3]
+- Set rounding mode for Money gem [#6]
+- Bump Rake version [#10]
+- Ruby 3 support [#18]
+
 ## [0.4.4] - 2019-10-29
 ### Added
 - Add `#sku`, `#cost` and `#description` to `Physical::Item`
