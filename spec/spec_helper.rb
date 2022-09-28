@@ -5,15 +5,14 @@ SimpleCov.start do
   add_filter '/spec/'
 end
 
-require "money"
-# Explicitly configure the default rounding mode to avoid deprecation warnings
-Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
-
 require "bundler/setup"
 require "physical"
 require "physical/spec_support/shared_examples"
 require "factory_bot"
 require "physical/test_support"
+
+# Explicitly configure the default rounding mode to avoid deprecation warnings
+Money.rounding_mode = BigDecimal::ROUND_HALF_EVEN
 
 FactoryBot.definition_file_paths.concat(Physical::TestSupport.factory_paths)
 FactoryBot.reload

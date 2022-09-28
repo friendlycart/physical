@@ -8,10 +8,10 @@ module Physical
                 :sku,
                 :description
 
-    def initialize(cost: nil, sku: nil, description: nil, **kwargs)
-      @cost = Types::Money.optional[cost]
-      @sku = sku
-      @description = description
+    def initialize(**kwargs)
+      @cost = Types::Money.optional[kwargs.delete(:cost)]
+      @sku = kwargs.delete(:sku)
+      @description = kwargs.delete(:description)
       super(**kwargs)
     end
   end

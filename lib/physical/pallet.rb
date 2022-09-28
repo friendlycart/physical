@@ -9,7 +9,8 @@ module Physical
 
     attr_reader :max_weight
 
-    def initialize(max_weight: Measured::Weight(DEFAULT_MAX_WEIGHT, :g), **args)
+    def initialize(**args)
+      max_weight = args.delete(:max_weight) || Measured::Weight(DEFAULT_MAX_WEIGHT, :g)
       super(**args)
       @max_weight = Types::Weight[max_weight]
     end
