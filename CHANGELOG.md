@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.4.7] - 2022-12-14
+
+### Changed
+- Relax Dry::Types dependency to "~> 1.0"
+
 ## [0.4.5] - 2022-09-28
 ### Added
 - Add `Physical::Pallet` class [#12]
