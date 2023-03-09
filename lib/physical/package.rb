@@ -28,6 +28,14 @@ module Physical
       container.weight + items_weight + void_fill_weight
     end
 
+    # Cost is optional. We will only return an aggregate if all items
+    # have cost defined. Otherwise we will retun nil.
+    # @return Money
+    def items_value
+      items_cost = items.map(&:cost)
+      items_cost.reduce(&:+) if items_cost.compact.size == items_cost.size
+    end
+
     # @return [Measured::Weight]
     def items_weight
       items.map(&:weight).reduce(Measured::Weight(0, :g), &:+)

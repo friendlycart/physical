@@ -190,6 +190,53 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe '#items_value' do
+    subject { package.items_value}
+
+    context 'without items' do
+      let(:args) {{ items: [] }}
+      it { is_expected.to be_nil }
+    end
+
+    context 'without cost defined for items' do
+      let(:args) do
+        {
+          items: [
+            Physical::Item.new(weight: Measured::Weight(0.2, :lb)),
+            Physical::Item.new(weight: Measured::Weight(1, :lb))
+          ]
+        }
+      end
+      it { is_expected.to be_nil }
+    end
+
+    context 'with cost sparsely defined for items' do
+      let(:args) do
+        {
+          items: [
+            Physical::Item.new(weight: Measured::Weight(0.2, :lb), cost: Money.new(12_345, 'USD')),
+            Physical::Item.new(weight: Measured::Weight(1, :lb))
+          ]
+        }
+      end
+
+      it { is_expected.to be_nil }
+    end
+
+    context 'with cost defined for all items' do
+      let(:args) do
+        {
+          items: [
+            Physical::Item.new(weight: Measured::Weight(0.2, :lb), cost: Money.new(12_345, 'USD')),
+            Physical::Item.new(weight: Measured::Weight(1, :lb), cost: Money.new(12_345, 'USD'))
+          ]
+        }
+      end
+
+      it { is_expected.to eq(Money.new(24690, 'USD')) }
+    end
+  end
+
   describe '#items_weight' do
     let(:args) do
       {
