@@ -191,10 +191,10 @@ RSpec.describe Physical::Package do
   end
 
   describe '#items_value' do
-    subject { package.items_value}
+    subject { package.items_value }
 
     context 'without items' do
-      let(:args) {{ items: [] }}
+      let(:args) { { items: [] } }
       it { is_expected.to be_nil }
     end
 
@@ -233,7 +233,7 @@ RSpec.describe Physical::Package do
         }
       end
 
-      it { is_expected.to eq(Money.new(24690, 'USD')) }
+      it { is_expected.to eq(Money.new(24_690, 'USD')) }
     end
   end
 
