@@ -29,7 +29,7 @@ module Physical
     end
 
     # Cost is optional. We will only return an aggregate if all items
-    # have cost defined. Otherwise we will retun nil.
+    # have cost defined. Otherwise we will return nil.
     # @return Money
     def items_value
       items_cost = items.map(&:cost)
