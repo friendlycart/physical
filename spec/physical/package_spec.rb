@@ -309,13 +309,32 @@ RSpec.describe Physical::Package do
   describe "#used_volume" do
     let(:args) do
       {
-        items: Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) })
+        items: [
+          Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }),
+          Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) })
+        ]
       }
     end
 
     subject { package.used_volume }
 
-    it { is_expected.to eq(Measured::Volume(1, :ml)) }
+    it { is_expected.to eq(Measured::Volume(9, :ml)) }
+
+    context "after adding items to the package" do
+      before do
+        package << Physical::Item.new(dimensions: [3, 3, 3].map { |d| Measured::Length(d, :cm) })
+      end
+
+      it { is_expected.to eq(Measured::Volume(36, :ml)) }
+    end
+
+    context "after removing items from the package" do
+      before do
+        package >> Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) })
+      end
+
+      it { is_expected.to eq(Measured::Volume(1, :ml)) }
+    end
   end
 
   describe "#remaining_volume" do
