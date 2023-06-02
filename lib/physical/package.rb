@@ -3,24 +3,27 @@
 module Physical
   class Package
     extend Forwardable
-    attr_reader :container, :items, :void_fill_density, :id
+    attr_reader :id, :container, :items, :void_fill_density, :items_weight
 
     def initialize(id: nil, container: nil, items: [], void_fill_density: Measured::Density(0, :g_ml), dimensions: nil, weight: nil, properties: {})
       @id = id || SecureRandom.uuid
       @void_fill_density = Types::Density[void_fill_density]
       @container = container || Physical::Box.new(dimensions: dimensions || [], weight: weight || Measured::Weight(0, :g), properties: properties)
       @items = Set[*items]
+      @items_weight = @items.map(&:weight).reduce(Measured::Weight(0, :g), &:+)
     end
 
     delegate [:dimensions, :width, :length, :height, :properties, :volume] => :container
 
     def <<(other)
       @items.add(other)
+      @items_weight += other.weight
     end
     alias_method :add, :<<
 
     def >>(other)
       @items.delete(other)
+      @items_weight -= other.weight
     end
     alias_method :delete, :>>
 
@@ -34,11 +37,6 @@ module Physical
     def items_value
       items_cost = items.map(&:cost)
       items_cost.reduce(&:+) if items_cost.compact.size == items_cost.size
-    end
-
-    # @return [Measured::Weight]
-    def items_weight
-      items.map(&:weight).reduce(Measured::Weight(0, :g), &:+)
     end
 
     def void_fill_weight
