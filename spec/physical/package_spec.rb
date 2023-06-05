@@ -237,19 +237,35 @@ RSpec.describe Physical::Package do
     end
   end
 
-  describe '#items_weight' do
+  describe "#items_weight" do
     let(:args) do
       {
         items: [
-          Physical::Item.new(weight: Measured::Weight(0.2, :lb)),
-          Physical::Item.new(weight: Measured::Weight(1, :lb))
+          Physical::Item.new(weight: Measured::Weight(0.2, :g)),
+          Physical::Item.new(weight: Measured::Weight(1, :g))
         ]
       }
     end
 
     subject { package.items_weight }
 
-    it { is_expected.to eq(Measured::Weight(544.310844, :g)) }
+    it { is_expected.to eq(Measured::Weight(1.2, :g)) }
+
+    context "after adding items to the package" do
+      before do
+        package << Physical::Item.new(weight: Measured::Weight(2, :g))
+      end
+
+      it { is_expected.to eq(Measured::Weight(3.2, :g)) }
+    end
+
+    context "after removing items from the package" do
+      before do
+        package >> Physical::Item.new(weight: Measured::Weight(1, :g))
+      end
+
+      it { is_expected.to eq(Measured::Weight(0.2, :g)) }
+    end
   end
 
   describe '#void_fill_weight' do
@@ -293,13 +309,32 @@ RSpec.describe Physical::Package do
   describe "#used_volume" do
     let(:args) do
       {
-        items: Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) })
+        items: [
+          Physical::Item.new(dimensions: [1, 1, 1].map { |d| Measured::Length(d, :cm) }),
+          Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) })
+        ]
       }
     end
 
     subject { package.used_volume }
 
-    it { is_expected.to eq(Measured::Volume(1, :ml)) }
+    it { is_expected.to eq(Measured::Volume(9, :ml)) }
+
+    context "after adding items to the package" do
+      before do
+        package << Physical::Item.new(dimensions: [3, 3, 3].map { |d| Measured::Length(d, :cm) })
+      end
+
+      it { is_expected.to eq(Measured::Volume(36, :ml)) }
+    end
+
+    context "after removing items from the package" do
+      before do
+        package >> Physical::Item.new(dimensions: [2, 2, 2].map { |d| Measured::Length(d, :cm) })
+      end
+
+      it { is_expected.to eq(Measured::Volume(1, :ml)) }
+    end
   end
 
   describe "#remaining_volume" do
