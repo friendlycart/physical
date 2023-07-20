@@ -4,7 +4,9 @@ RSpec.describe Physical::Pallet do
   let(:args) { {} }
   subject { described_class.new(**args) }
 
-  it_behaves_like 'a cuboid'
+  it_behaves_like 'a cuboid' do
+    let(:default_length) { BigDecimal::INFINITY }
+  end
 
   it { is_expected.to respond_to(:inner_volume) }
   it { is_expected.to respond_to(:inner_dimensions) }
@@ -51,61 +53,6 @@ RSpec.describe Physical::Pallet do
           Measured::Length.new(BigDecimal::INFINITY, :cm)
         ]
       )
-    end
-  end
-
-  describe "#volume" do
-    subject { described_class.new(**args).volume }
-
-    context "if all three dimensions are given" do
-      let(:args) { { dimensions: [1.1, 2.1, 3.2].map { |d| Measured::Length(d, :cm) } } }
-
-      it "returns the correct volume" do
-        expect(subject).to eq(Measured::Volume(7.392, :ml))
-      end
-    end
-
-    context "if a dimension is missing" do
-      let(:args) { { dimensions: [1.1, 2.1].map { |d| Measured::Length(d, :cm) } } }
-
-      it "is infinitely large" do
-        expect(subject).to eq(Measured::Volume(BigDecimal::INFINITY, :ml))
-      end
-    end
-  end
-
-  describe '#density' do
-    subject { described_class.new(**args).density.value.to_f }
-
-    let(:args) do
-      {
-        dimensions: dimensions,
-        weight: weight
-      }
-    end
-
-    context "if volume is infinite" do
-      let(:dimensions) do
-        [1.1, 2.1].map { |d| Measured::Length(d, :in) }
-      end
-
-      let(:weight) { Measured::Weight(1, :pound) }
-
-      it { is_expected.to eq(0.0) }
-    end
-  end
-
-  describe "#weight" do
-    subject { described_class.new(**args).weight }
-
-    context "with no weight given" do
-      let(:args) { {} }
-      it { is_expected.to eq(Measured::Weight(0, :g)) }
-    end
-
-    context "with a weight unit given" do
-      let(:args) { { weight: Measured::Weight(1, :lbs) } }
-      it { is_expected.to eq(Measured::Weight(453.59237, :g)) }
     end
   end
 
