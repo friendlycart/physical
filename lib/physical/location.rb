@@ -4,6 +4,8 @@ require 'carmen'
 
 module Physical
   class Location
+    include PropertyReaders
+
     ADDRESS_TYPES = %w(residential commercial po_box).freeze
 
     attr_reader :country,
@@ -20,7 +22,8 @@ module Physical
                 :address_type,
                 :company_name,
                 :latitude,
-                :longitude
+                :longitude,
+                :properties
 
     def initialize(
       name: nil,
@@ -37,7 +40,8 @@ module Physical
       email: nil,
       address_type: nil,
       latitude: nil,
-      longitude: nil
+      longitude: nil,
+      properties: {}
     )
 
       @country = if country.is_a?(Carmen::Country)
@@ -65,6 +69,7 @@ module Physical
       @address_type = address_type
       @latitude = latitude
       @longitude = longitude
+      @properties = properties
     end
 
     def residential?
