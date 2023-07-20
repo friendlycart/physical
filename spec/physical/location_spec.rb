@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 RSpec.describe Physical::Location do
+  subject(:location) { described_class.new(**args) }
+
   let(:args) { {} }
 
-  subject(:location) { described_class.new(**args) }
+  it_behaves_like 'has property readers'
 
   it { is_expected.to respond_to(:country) }
   it { is_expected.to respond_to(:zip) }
