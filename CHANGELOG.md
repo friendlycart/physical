@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.4.9] - 2023-08-02
+
+### Added
+- Extract cuboid property handling into mixin [#25]
+- Add properties to `Physical::Location` [#26]
+- Add pallets to `Physical::Shipment` [#29]
+
+### Changed
+- Faster package weight and volume calculations [#23]
+
 ## [0.4.8] - 2023-03-21
 
 ### Added
