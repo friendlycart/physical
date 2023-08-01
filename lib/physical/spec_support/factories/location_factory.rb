@@ -14,6 +14,7 @@ FactoryBot.define do
     city { 'Herndon' }
     sequence(:zip, 10_001, &:to_s)
     phone { '555-555-0199' }
+    email { 'jane@company.com' }
     region { country.subregions.coded(region_code) }
     country { Carmen::Country.coded(country_code) }
     initialize_with { new(**attributes) }
