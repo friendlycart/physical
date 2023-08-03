@@ -101,7 +101,7 @@ RSpec.describe Physical::Location do
 
   describe 'factory' do
     let(:country) { Carmen::Country.coded('us') }
-    let(:subregion) { country.subregions.coded('il') }
+    let(:subregion) { country.subregions.coded('va') }
 
     subject { FactoryBot.build(:physical_location) }
 
@@ -110,7 +110,7 @@ RSpec.describe Physical::Location do
       expect(subject.region).to eq(subregion)
       expect(subject.name).to eq("Jane Doe")
       expect(subject.address1).to eq("11 Lovely Street")
-      expect(subject.address2).to eq("South")
+      expect(subject.address2).to eq("Suite 100")
       expect(subject.address3).to be_nil
       expect(subject.city).to eq("Herndon")
       expect(subject.company_name).to eq("Company")
@@ -124,7 +124,7 @@ RSpec.describe Physical::Location do
     it do
       is_expected.to match(
         hash_including(
-          region: 'IL'
+          region: 'VA'
         )
       )
     end
