@@ -4,15 +4,15 @@ FactoryBot.define do
   factory :physical_location, class: 'Physical::Location' do
     transient do
       country_code { 'US' }
-      region_code { 'IL' }
+      region_code { 'VA' }
     end
 
     name { 'Jane Doe' }
     company_name { 'Company' }
     address1 { '11 Lovely Street' }
-    address2 { 'South' }
+    address2 { 'Suite 100' }
     city { 'Herndon' }
-    sequence(:zip, 10_001, &:to_s)
+    zip { '20170' }
     phone { '555-555-0199' }
     email { 'jane@company.com' }
     region { country.subregions.coded(region_code) }
