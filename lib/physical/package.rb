@@ -3,12 +3,13 @@
 module Physical
   class Package
     extend Forwardable
-    attr_reader :id, :container, :items, :void_fill_density, :items_weight, :used_volume
+    attr_reader :id, :container, :items, :void_fill_density, :items_weight, :used_volume, :description
 
-    def initialize(id: nil, container: nil, items: [], void_fill_density: Measured::Density(0, :g_ml), dimensions: nil, weight: nil, properties: {})
+    def initialize(id: nil, container: nil, items: [], void_fill_density: Measured::Density(0, :g_ml), dimensions: nil, weight: nil, description: nil, properties: {})
       @id = id || SecureRandom.uuid
       @void_fill_density = Types::Density[void_fill_density]
       @container = container || Physical::Box.new(dimensions: dimensions || [], weight: weight || Measured::Weight(0, :g), properties: properties)
+      @description = description
 
       @items = Set[*items]
       @items_weight = @items.map(&:weight).reduce(Measured::Weight(0, :g), &:+)

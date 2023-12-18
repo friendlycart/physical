@@ -190,6 +190,20 @@ RSpec.describe Physical::Package do
     end
   end
 
+  describe "#description" do
+    let(:args) { {} }
+
+    subject { described_class.new(**args).description }
+
+    it { is_expected.to be nil }
+
+    context "if description is given" do
+      let(:args) { { description: "Very Beautiful Earrings" } }
+
+      it { is_expected.to eq("Very Beautiful Earrings") }
+    end
+  end
+
   describe '#items_value' do
     subject { package.items_value }
 
