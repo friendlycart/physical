@@ -7,17 +7,23 @@ module Physical
                 :destination,
                 :service_code,
                 :pallets,
+                :structures,
                 :packages,
                 :options
 
-    def initialize(id: nil, origin: nil, destination: nil, service_code: nil, pallets: [], packages: [], options: {})
+    def initialize(id: nil, origin: nil, destination: nil, service_code: nil, pallets: [], structures: [], packages: [], options: {})
       @id = id || SecureRandom.uuid
       @origin = origin
       @destination = destination
       @service_code = service_code
-      @pallets = pallets
+      @structures = structures
       @packages = packages
       @options = options
+
+      return unless pallets.any?
+
+      warn "[DEPRECATION] `pallets` is deprecated.  Please use `structures` instead."
+      @pallets = pallets
     end
   end
 end

@@ -12,6 +12,7 @@ require "physical/pallet"
 require "physical/item"
 require "physical/location"
 require "physical/shipment"
+require "physical/structure"
 
 module Physical
   # Your code goes here...

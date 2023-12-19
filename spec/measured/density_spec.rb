@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'spec_helper'
-
 RSpec.describe Measured::Density do
   it "has a SI unit" do
     expect(Measured::Density(1, :kg_m3).unit).to be_a(Measured::Unit)
