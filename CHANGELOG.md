@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.5.0] - 2023-12-19
+
+### Added
+- Allow shipments to have pallets [#29]
+- Introduce `Physical::Structure` class [#31]
+
+### Changed
+- Use legitimate state/zip in location factory [#30]
+
 ## [0.4.9] - 2023-08-02
 
 ### Added
