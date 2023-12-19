@@ -9,7 +9,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.5.0] - 2023-12-19
 
 ### Added
-- Allow shipments to have pallets [#29]
 - Introduce `Physical::Structure` class [#31]
 
 ### Changed
