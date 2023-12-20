@@ -19,11 +19,8 @@ module Physical
       @structures = structures
       @packages = packages
       @options = options
-
-      return unless pallets.any?
-
-      warn "[DEPRECATION] `pallets` is deprecated.  Please use `structures` instead."
       @pallets = pallets
+      warn "[DEPRECATION] `pallets` is deprecated.  Please use `structures` instead." if pallets.any?
     end
   end
 end
