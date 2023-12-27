@@ -36,6 +36,17 @@ jobs:
           name: run Rubocop
           command: bundle exec rubocop
 
+      - run:
+          name: measure YARD coverage
+          command: bundle exec rake yardstick_measure
+      - store_artifacts:
+          path: /tmp/yard-results
+          destination: yard-results
+
+      - run:
+          name: verify YARD coverage
+          command: bundle exec rake yardstick_verify
+
       # run tests!
       - run:
           name: run tests
