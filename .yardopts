@@ -1,0 +1,9 @@
+--protected
+--no-private
+--readme README.md
+--markup markdown
+--exclude test_support
+--exclude measured/density
+--exclude physical/types
+--exclude physical/property_readers
+'lib/**/*.rb' - '*.md'
