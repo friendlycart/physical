@@ -48,13 +48,13 @@ module Physical
       @properties = properties
     end
 
-    # Calculates and returns this cuboid's volume based on its dimensions
+    # Calculates and returns this cuboid's volume based on its dimensions.
     # @return [Measured::Volume]
     def volume
       Measured::Volume(dimensions.map { |d| d.convert_to(:cm).value }.reduce(1, &:*), :ml)
     end
 
-    # Calculates and returns this cuboid's density based on its volume and weight
+    # Calculates and returns this cuboid's density based on its volume and weight.
     # @return [Measured::Density]
     def density
       return Measured::Density(Float::INFINITY, :g_ml) if volume.value.zero?
@@ -63,7 +63,7 @@ module Physical
       Measured::Density(weight.convert_to(:g).value / volume.convert_to(:ml).value, :g_ml)
     end
 
-    # Returns true if the given object shares the same class and ID with this cuboid
+    # Returns true if the given object shares the same class and ID with this cuboid.
     # @param [Object] other
     # @return [Boolean]
     def ==(other)
@@ -73,7 +73,7 @@ module Physical
 
     private
 
-    # Fills an array with dimensions or with default values if unspecified
+    # Fills an array with dimensions or with default values if unspecified.
     # @param [Array<Measured::Length>] dimensions
     # @return [Array<Measured::Length>]
     def fill_dimensions(dimensions)
