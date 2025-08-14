@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [0.6.0] - 2025-08-14
+
+### Changed
+- Require Ruby >= 3.0
+- Upgrade `measured` dependency to `~> 3.0` (bundled as 3.2.1)
+
 ## [0.5.1] - 2023-12-19
 
 ### Changed
