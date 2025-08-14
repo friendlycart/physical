@@ -19,10 +19,10 @@ Gem::Specification.new do |spec|
     f.match(%r{^(spec)/})
   end
   spec.require_paths = ["lib"]
-  spec.required_ruby_version = '>= 2.4'
+  spec.required_ruby_version = '>= 3.0'
   spec.add_runtime_dependency "carmen", "~> 1.0"
   spec.add_runtime_dependency "dry-types", "~> 1.5"
-  spec.add_runtime_dependency "measured", "~> 2.4"
+  spec.add_runtime_dependency "measured", "~> 3.0"
   spec.add_runtime_dependency "money", ">= 5"
 
   spec.add_development_dependency "bundler", [">= 1.16", "< 3"]
